@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "device_class": "perpendicular_SOT_MRAM_1T1MTJ",
+  "literature_anchors": [
+    {
+      "doi_or_id": "arXiv:2404.09125",
+      "title": "Achieving High Yield of Perpendicular SOT-MTJ Manufactured on 300 mm Wafers",
+      "parameters_used": ["TMR", "R_P", "I_c_P_to_AP_2ns", "I_c_AP_to_P_2ns", "R_SOT"]
+    },
+    {
+      "doi_or_id": "10.1109/vlsi-tsa/vlsi-dat57221.2023.10134109",
+      "title": "Structure and Performance Co-optimization for SOT-MRAM",
+      "parameters_used": ["delta_thermal_stability_order_of_magnitude"]
+    }
+  ],
+  "electrical": {
+    "R_P_ohm_literature": 10890.0,
+    "TMR_percent": 119.0,
+    "R_AP_ohm_literature": 23849.1,
+    "R_P_ohm_read_proxy": 5000.0,
+    "R_AP_ohm_read_proxy": 10950.0,
+    "R_REF_ohm_read_proxy": 7416.0,
+    "C_MTJ_fF_literature_order": 40.0,
+    "C_MTJ_fF_read_proxy": 5.0,
+    "R_SOT_channel_ohm": 776.0,
+    "I_c_P_to_AP_uA_at_2ns": 680.0,
+    "I_c_AP_to_P_uA_at_2ns": 880.0,
+    "write_pulse_width_ns": 2.0,
+    "delta_thermal_stability": 59.0,
+    "VDD_read_V": 1.0
+  },
+  "notes": {
+    "read_model": "linear resistor + capacitor; no stochastic switching in read Qcrit flow",
+    "write_model": "separate SOT current-pulse netlist; not merged into read BER",
+    "not_a_foundry_PDK": true
+  },
+  "read_path_tiers": {
+    "read_proxy_v1": {
+      "status": "characterized_baseline",
+      "r_p_ohm": 5000.0,
+      "r_ap_ohm": 10950.0,
+      "c_mtj_fF": 5.0,
+      "access_width_nm": 480.0,
+      "rationale": "scaled from literature for functional read margin with 256-row BL loading"
+    },
+    "literature_resistance": {
+      "status": "sensitivity_variant",
+      "r_p_ohm": 10890.0,
+      "r_ap_ohm": 23849.1,
+      "c_mtj_fF": 5.0,
+      "access_width_nm": 960.0,
+      "rationale": "arXiv:2404.09125 measured R with widened access; see read_path_sensitivity.tsv"
+    },
+    "literature_combined_tuned": {
+      "status": "sensitivity_variant",
+      "r_p_ohm": 10890.0,
+      "r_ap_ohm": 23849.1,
+      "c_mtj_fF": 10.0,
+      "access_width_nm": 1200.0,
+      "rationale": "best-effort literature alignment with extended SA timing"
+    }
+  }
+}

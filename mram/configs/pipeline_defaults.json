@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "ngspice_executable": "C:/Users/思源/OneDrive/Desktop/太空计算课题组/Spice64/bin/ngspice.exe",
+  "ngspice_fallback": "ngspice",
+  "target_orbit_workbook": "../../environment/target_orbit/SPENVIS_环境与模型输入.xlsx",
+  "mtj_parameters": "../../models/MTJ/sot_mtj_parameters.json"
+}

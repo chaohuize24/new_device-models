@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "variants": {
+    "read_proxy_v1": {
+      "label": "v1 scaled read proxy (functional baseline)",
+      "literature_basis": "arXiv:2404.09125 TMR/R anchors; R and C scaled for BL loading",
+      "r_p_ohm": 5000.0,
+      "r_ap_ohm": 10950.0,
+      "r_ref_ohm": 7416.0,
+      "c_mtj_fF": 5.0,
+      "access_width_nm": 480.0,
+      "sa_enable_ns": 1.65,
+      "sense_delay_ns": 0.25,
+      "read_window_ns": 0.72
+    },
+    "literature_resistance": {
+      "label": "literature R_P/R_AP with widened access device",
+      "literature_basis": "arXiv:2404.09125 measured R_P=10.89 kOhm, TMR=119%",
+      "r_p_ohm": 10890.0,
+      "r_ap_ohm": 23849.1,
+      "r_ref_ohm": 16170.0,
+      "c_mtj_fF": 5.0,
+      "access_width_nm": 960.0,
+      "sa_enable_ns": 1.85,
+      "sense_delay_ns": 0.35,
+      "read_window_ns": 0.72
+    },
+    "literature_capacitance": {
+      "label": "literature-order C_MTJ (~40 fF) with scaled R",
+      "literature_basis": "co-optimization paper order-of-magnitude MTJ capacitance",
+      "r_p_ohm": 5000.0,
+      "r_ap_ohm": 10950.0,
+      "r_ref_ohm": 7416.0,
+      "c_mtj_fF": 40.0,
+      "access_width_nm": 480.0,
+      "sa_enable_ns": 1.75,
+      "sense_delay_ns": 0.30,
+      "read_window_ns": 0.72
+    },
+    "literature_combined_tuned": {
+      "label": "literature R + widened access + extended SA timing",
+      "literature_basis": "best-effort alignment to arXiv:2404.09125 without foundry PEX",
+      "r_p_ohm": 10890.0,
+      "r_ap_ohm": 23849.1,
+      "r_ref_ohm": 16170.0,
+      "c_mtj_fF": 10.0,
+      "access_width_nm": 1200.0,
+      "sa_enable_ns": 2.05,
+      "sense_delay_ns": 0.40,
+      "read_window_ns": 0.72
+    }
+  },
+  "functional_criteria": {
+    "required_measures": ["read0_ok", "read1_ok", "d0_diff_dev", "d1_diff_dev"],
+    "min_diff_dev_v": 0.005
+  }
+}

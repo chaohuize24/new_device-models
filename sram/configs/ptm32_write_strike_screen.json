@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "scope": "generic_32nm_6T_SRAM_dynamic_write_strike_screen",
+  "model": "../../models/PTM_bulk/32nm_LP.pm",
+  "model_status": "predictive_technology_model_not_foundry_PDK",
+  "cell": {
+    "pull_down_width_nm": 120.0,
+    "pull_up_width_nm": 90.0,
+    "access_width_nm": 100.0,
+    "external_node_capacitance_ff": 0.35
+  },
+  "selected_write_path": {
+    "rows_per_local_bitline": 128,
+    "local_bitline_capacitance_ff": 20.0,
+    "write_driver_nmos_width_nm": 800.0,
+    "write_driver_pmos_width_nm": 1600.0,
+    "column_mux_nmos_width_nm": 240.0,
+    "column_mux_pmos_width_nm": 480.0,
+    "implementation": "finite transistor-level complementary write drivers and one selected transmission-gate column branch",
+    "excluded": [
+      "row and column address decoder logic",
+      "address latches and clock tree",
+      "unselected mux branches",
+      "target PEX and package parasitics"
+    ]
+  },
+  "timing": {
+    "write_enable_start_ns": 0.15,
+    "wordline_start_ns": 0.25,
+    "write_enable_end_ns": 1.70,
+    "wordline_end_ns": 1.70,
+    "final_decision_ns": 2.30,
+    "transient_end_ns": 2.40,
+    "strike_times_ns": [0.10, 0.16, 0.24, 0.26, 0.40, 0.80, 1.20, 1.60, 1.69, 1.74]
+  },
+  "strike": {
+    "pulse": "double_exponential_normalized_to_collected_charge",
+    "rise_time_ps": 5.0,
+    "fall_time_ps": 20.0,
+    "nodes": ["q", "qb", "bl", "blb", "d", "db"],
+    "qcrit_initial_high_fc": 0.4,
+    "qcrit_max_fc": 12.8,
+    "qcrit_tolerance_fc": 0.01,
+    "polarity_policy": "remove charge from a node that should be high or add charge to a node that should be low"
+  },
+  "screen_strategy": {
+    "full_phase_condition": {"pvt_corner": "nominal", "tid_corner": "central"},
+    "all_corner_strike_times_ns": [1.60, 1.69, 1.74],
+    "all_corner_nodes": ["q", "qb", "bl", "blb"],
+    "all_corner_desired_bits": [1],
+    "reason": "the full nominal scan locates the vulnerable phase and confirms 0/1 and D/DB symmetry; all 15 PVT/TID combinations then check the cell/bitline nodes immediately before and after write closure"
+  },
+  "conditional_pvt_corners": {
+    "low_vdd_cold": {"vdd_v": 0.81, "temperature_c": -40.0},
+    "low_vdd_hot": {"vdd_v": 0.81, "temperature_c": 85.0},
+    "nominal": {"vdd_v": 0.90, "temperature_c": 27.0},
+    "high_vdd_cold": {"vdd_v": 0.99, "temperature_c": -40.0},
+    "high_vdd_hot": {"vdd_v": 0.99, "temperature_c": 85.0}
+  },
+  "tid_corners_at_14p32_krad_si": {
+    "central": {"nmos_delta_vth_v": 0.0, "pmos_signed_delta_vth_v": 0.0, "mobility_scale": 1.0},
+    "conservative": {"nmos_delta_vth_v": -0.001, "pmos_signed_delta_vth_v": -0.001, "mobility_scale": 0.99},
+    "stress_not_a_fit": {"nmos_delta_vth_v": -0.003, "pmos_signed_delta_vth_v": -0.003, "mobility_scale": 0.98}
+  },
+  "importance_screen": {
+    "nominal_radiation_rate_per_bit_s": 1.7177458348590855e-13,
+    "residence_times_s": [1e-6, 1e-3, 1.0, 1500.0],
+    "write_window_s": 1.55e-9,
+    "criterion": "report the dynamic-to-hold cross-section multiplier required for one write to equal mean hold-state error over each residence time"
+  },
+  "claim_boundary": "Qcrit ratios are electrical vulnerability screens, not dynamic cross sections or absolute write BER"
+}

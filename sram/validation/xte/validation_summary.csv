@@ -1,0 +1,3 @@
+case,environment,published_month_average_upsets_per_ssr_day,predicted_upsets_per_ssr_day,response_envelope_low,response_envelope_high,predicted_over_published,within_one_order_of_magnitude
+RXTE_1996_07,"573 km, 23 deg, AP-8 MIN, 200 mil Al",250.0,407.7407666873221,299.17427113742383,587.416161294698,1.6309630667492885,True
+RXTE_2002_07,"520 km, 23 deg, AP-8 MAX, 200 mil Al",70.0,146.18024268646855,107.44932119986488,207.51546839963905,2.088289181235265,True

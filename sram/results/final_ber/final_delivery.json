@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "claim_scope": "target-orbit 28 nm SRAM-class engineering BER delivery",
+  "target_orbit": {
+    "altitude_km": 400.0,
+    "inclination_deg": 51.6,
+    "mission_start": "2020-01-01T00:00:00",
+    "mission_end": "2024-12-30T00:00:00",
+    "duration_days": 1825.0,
+    "shielding_al_equivalent_g_cm2": 1.0,
+    "shielding_al_equivalent_mm_approx": 3.7,
+    "spenvis_components": [
+      "AP-8 MIN trapped protons",
+      "ESP-PSYCHIC solar particles",
+      "CREME96 GCR particles"
+    ],
+    "spenvis_spectrum_path": "../../environment/target_orbit/average_LET_proton_and_ion_spectra.txt"
+  },
+  "fixed_operation_assumptions": {
+    "fixed_refresh_interval_s": 1500.0,
+    "residence_time_scan_s": [
+      1e-06,
+      1e-05,
+      0.0001,
+      0.001,
+      0.01,
+      0.1,
+      1.0,
+      10.0,
+      60.0,
+      300.0,
+      1500.0
+    ],
+    "read_time_distribution": "uniform between known-good refresh writes",
+    "read_endpoint": "immediately before the next refresh",
+    "write_vulnerable_window_s": 1.55e-09,
+    "write_window_source": "current PTM32 architecture-LUT write testbench WREN high from 0.15 ns to 1.70 ns",
+    "read_sense_window_s": 9e-10,
+    "read_window_source": "current PTM32 architecture-LUT latch sense amplifier enabled from 0.80 ns to 1.70 ns",
+    "example_word_bits": 32,
+    "example_array_bits": 262144,
+    "refresh_assumption": "each refresh/write restores a known-correct stored state",
+    "radiation_process": "independent Poisson SBU arrivals; each admitted event toggles one stored bit",
+    "mbu_included": false,
+    "ecc_included": false
+  },
+  "peripheral_design": {
+    "electrical_references": [
+      "../netlists/ptm32_arch_lut/sram6t_read_lut_template.sp",
+      "../netlists/ptm32_arch_lut/sram6t_write_lut_template.sp"
+    ],
+    "technology_model": "PTM 32 nm LP BSIM4 predictive model, not a foundry PDK",
+    "cell": "conventional differential 6T SRAM cell",
+    "local_bitline": "differential BL/BLB; CBL=2+0.140625*local_rows fF, giving 20 fF at 128 local rows",
+    "precharge_equalize": "two PMOS precharge devices plus one NMOS equalizer on each local and global differential bitline pair",
+    "column_mux": "one selected 1-of-M branch represented by a voltage-controlled finite-resistance switch, Ron=200 ohm; other branches enter through global-bitline capacitance",
+    "global_bitline": "differential GBL/GBLB; CGBL=2+0.75*mux fF, giving 5 fF at 4:1 mux",
+    "sense_amplifier": "clocked cross-coupled differential voltage latch with PMOS header and NMOS tail; one sense amplifier per post-mux output bit",
+    "write_path": "complementary full-swing ideal data sources drive BL/BLB through the finite-resistance selected branch",
+    "control": "PRE/EQ/COL/WL/SAEN/WREN are ideal PWL voltage sources; transistor-level decoder, clock generator and write driver are not included",
+    "segmentation": "selected local segment is explicit through local_rows and CBL; unselected segment selectors and global routing are not fully transistor-netlisted",
+    "baseline_organization": "128 rows per local bitline, 4:1 column mux; 128 physical columns therefore provide 32 post-mux outputs and 32 sense amplifiers",
+    "not_included": "PEX/global-wire RC, unselected-cell pattern leakage, package parasitics and target layout"
+  },
+  "final_per_bit_results": [
+    {
+      "scenario": "partial_low",
+      "heavy_ion_rate_per_bit_s": 7.667869049851425e-15,
+      "proton_rate_per_bit_s": 4.971389830742304e-14,
+      "total_sbu_toggle_rate_per_bit_s": 5.738176735727447e-14,
+      "upsets_per_bit_day": 4.957784699668514e-09,
+      "refresh_interval_s": 1500.0,
+      "single_read_ber_mean_uniform_in_refresh_interval": 4.303632551548635e-11,
+      "single_read_ber_at_refresh_endpoint": 8.60726510285032e-11,
+      "single_32bit_word_read_error_mean_independent_bits": 1.377162415576909e-09,
+      "single_write_radiation_ber_upper_proxy": 8.894173940377543e-23,
+      "single_32bit_word_write_error_upper_proxy": 2.8461356609208136e-21,
+      "radiation_event_probability_during_read_window_upper_proxy": 5.164359062154702e-23,
+      "expected_wrong_bits_at_refresh_endpoint_for_262144bit_array": 2.2563429031215943e-05,
+      "is_statistical_confidence_bound": false,
+      "interpretation": "measured-band partial contribution; not a mathematical lower bound for the target SRAM"
+    },
+    {
+      "scenario": "engineering_nominal",
+      "heavy_ion_rate_per_bit_s": 1.0612437676658683e-13,
+      "proton_rate_per_bit_s": 6.565020671932172e-14,
+      "total_sbu_toggle_rate_per_bit_s": 1.7177458348590855e-13,
+      "upsets_per_bit_day": 1.4841324013182499e-08,
+      "refresh_interval_s": 1500.0,
+      "single_read_ber_mean_uniform_in_refresh_interval": 1.2883093759230154e-10,
+      "single_read_ber_at_refresh_endpoint": 2.576618751624732e-10,
+      "single_32bit_word_read_error_mean_independent_bits": 4.1225899947213344e-09,
+      "single_write_radiation_ber_upper_proxy": 2.6625060440315827e-22,
+      "single_32bit_word_write_error_upper_proxy": 8.520019340901065e-21,
+      "radiation_event_probability_during_read_window_upper_proxy": 1.5459712513731769e-22,
+      "expected_wrong_bits_at_refresh_endpoint_for_262144bit_array": 6.754451460259138e-05,
+      "is_statistical_confidence_bound": false,
+      "interpretation": "cross-device engineering proxy, not a fitted target response"
+    },
+    {
+      "scenario": "engineering_high",
+      "heavy_ion_rate_per_bit_s": 8.078258849054836e-13,
+      "proton_rate_per_bit_s": 9.612593724590214e-14,
+      "total_sbu_toggle_rate_per_bit_s": 9.039518221513858e-13,
+      "upsets_per_bit_day": 7.810143743387974e-08,
+      "refresh_interval_s": 1500.0,
+      "single_read_ber_mean_uniform_in_refresh_interval": 6.779638660006928e-10,
+      "single_read_ber_at_refresh_endpoint": 1.3559277313885388e-09,
+      "single_32bit_word_read_error_mean_independent_bits": 2.1694843484043208e-08,
+      "single_write_radiation_ber_upper_proxy": 1.401125324334648e-21,
+      "single_32bit_word_write_error_upper_proxy": 4.483601037870874e-20,
+      "radiation_event_probability_during_read_window_upper_proxy": 8.135566399362472e-22,
+      "expected_wrong_bits_at_refresh_endpoint_for_262144bit_array": 0.0003554483192171171,
+      "is_statistical_confidence_bound": false,
+      "interpretation": "deliberately conservative unsupported-gap scenario, not a confidence bound"
+    }
+  ],
+  "recommended_report_row": {
+    "scenario": "engineering_nominal",
+    "heavy_ion_rate_per_bit_s": 1.0612437676658683e-13,
+    "proton_rate_per_bit_s": 6.565020671932172e-14,
+    "total_sbu_toggle_rate_per_bit_s": 1.7177458348590855e-13,
+    "upsets_per_bit_day": 1.4841324013182499e-08,
+    "refresh_interval_s": 1500.0,
+    "single_read_ber_mean_uniform_in_refresh_interval": 1.2883093759230154e-10,
+    "single_read_ber_at_refresh_endpoint": 2.576618751624732e-10,
+    "single_32bit_word_read_error_mean_independent_bits": 4.1225899947213344e-09,
+    "single_write_radiation_ber_upper_proxy": 2.6625060440315827e-22,
+    "single_32bit_word_write_error_upper_proxy": 8.520019340901065e-21,
+    "radiation_event_probability_during_read_window_upper_proxy": 1.5459712513731769e-22,
+    "expected_wrong_bits_at_refresh_endpoint_for_262144bit_array": 6.754451460259138e-05,
+    "is_statistical_confidence_bound": false,
+    "interpretation": "cross-device engineering proxy, not a fitted target response"
+  },
+  "engineering_envelope": {
+    "low_scenario": "partial_low",
+    "central_scenario": "engineering_nominal",
+    "high_scenario": "engineering_high",
+    "statistical_confidence_level": null,
+    "reason": "cross-device measured-proxy and unsupported-energy-gap scenario envelope, not repeated measurements of one target device"
+  },
+  "electrical_boundary": {
+    "ngspice_condition": "nominal PVT, central TID corner at 14.32 krad(Si)",
+    "observed_write_failures": 0,
+    "write_trials": 256,
+    "observed_read_failures_for_correct_state": 0,
+    "read_trials": 256,
+    "wilson95_zero_failure_upper": 0.01478385642587143,
+    "policy": "functional/mismatch screening only; finite-sample Wilson limit is not added to radiation BER and is not a per-access temporal BER"
+  },
+  "excluded": [
+    "multiple-bit upsets and spatial correlation",
+    "ECC and physical interleaving",
+    "SEL, SEFI, stuck bits and permanent failures",
+    "sense-amplifier and write-driver transient cross sections",
+    "foundry-PDK temporal-noise BER",
+    "target-layout package and BEOL transport"
+  ],
+  "source_files": {
+    "physical_rates": "sram/results/radiation/physical_rate_scenarios.csv",
+    "heavy_ion_curve": "sram/results/radiation/heavy_ion_curve_and_spectrum.csv",
+    "proton_curve": "sram/results/radiation/proton_curve_and_spectrum.csv",
+    "spenvis_spectrum": "environment/target_orbit/average_LET_proton_and_ion_spectra.txt"
+  },
+  "validation_status": {
+    "numeric_integration": "matched SPENVIS same-response integration within 0.1% in RXTE validation",
+    "in_orbit_quantity_of_order": "RXTE HM628128 blind anchors were overpredicted by factors 1.631 and 2.088; one of two preregistered factor-of-two gates passed",
+    "target_28nm_absolute_prediction": false
+  }
+}

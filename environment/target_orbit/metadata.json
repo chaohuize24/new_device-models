@@ -1,0 +1,20 @@
+{
+  "mission": {
+    "orbit": "circular LEO",
+    "altitude_km": 400.0,
+    "inclination_deg": 51.6,
+    "start": "2020-01-01T00:00:00",
+    "end": "2024-12-30T00:00:00",
+    "duration_days": 1825.0,
+    "shielding_al_equivalent_g_cm2": 1.0,
+    "shielding_al_equivalent_mm_approx": 3.7
+  },
+  "environment_models": [
+    "AP-8 MIN trapped protons",
+    "ESP-PSYCHIC mission solar-particle fluence",
+    "CREME96 GCR"
+  ],
+  "primary_machine_input": "average_LET_proton_and_ion_spectra.txt",
+  "normalized_review_workbook": "SPENVIS_环境与模型输入.xlsx",
+  "normalization": "mission-average omnidirectional flux; consumers must not multiply by 4pi again"
+}

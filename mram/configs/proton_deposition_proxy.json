@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "scope": "Proton energy to LET proxy for thin Si sensitive volumes (read periphery RPP)",
+  "source": "SRIM/NIST PSTAR approximate stopping in silicon; log-log interpolation",
+  "let_mev_cm2_mg_points": [
+    [0.5, 0.028],
+    [1.0, 0.024],
+    [2.0, 0.018],
+    [5.0, 0.010],
+    [10.0, 0.0065],
+    [20.0, 0.0040],
+    [50.0, 0.0022],
+    [100.0, 0.0014],
+    [200.0, 0.0009]
+  ],
+  "notes": {
+    "usage": "charge_fc = LET(E)*rho*depth*efficiency, same as heavy-ion RPP chain",
+    "limitation": "pre-layout proxy; does not model MgO direct ionization or MTJ storage flip"
+  }
+}

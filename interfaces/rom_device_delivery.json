@@ -1,0 +1,51 @@
+{
+  "schema_version": 2,
+  "device_id": "mask_nor_rom_2048x128_pre_layout",
+  "device_type": "MASK_NOR_ROM",
+  "target_specific": false,
+  "claim_level": "incomplete_lower_bound",
+  "target_orbit": "400 km, 51.6 deg, 5 years, 1.0 g/cm2 Al equivalent",
+  "channels": {
+    "persistent_state": {
+      "status": "not_applicable",
+      "valid_for_target": true,
+      "search_ready": true,
+      "normalization_basis": null,
+      "results": {"soft_toggle_rate_per_bit_s": 0.0},
+      "limitations": ["fixed mask pattern has no writable volatile storage state"]
+    },
+    "transient_read": {
+      "status": "screening_only",
+      "valid_for_target": false,
+      "search_ready": false,
+      "normalization_basis": "per active output bit per 0.72 ns read window",
+      "results": {
+        "heavy_ion_lower_bound_low": 2.2030607360665856e-28,
+        "heavy_ion_lower_bound_nominal": 1.2584460534376934e-25,
+        "heavy_ion_lower_bound_high": 3.3562521339227197e-23
+      },
+      "limitations": ["RPP area, depth and collection efficiency are engineering assumptions", "dynamic proton and decoder/control SET channels are absent"]
+    },
+    "post_write": {
+      "status": "not_applicable",
+      "valid_for_target": true,
+      "search_ready": true,
+      "normalization_basis": null,
+      "limitations": ["mask ROM has no field write operation"]
+    },
+    "correlated_macro_event": {
+      "status": "missing",
+      "valid_for_target": false,
+      "search_ready": false,
+      "normalization_basis": "per macro per second",
+      "limitations": ["address decoder, control and SEFI response are not modeled"]
+    },
+    "permanent_failure": {
+      "status": "missing",
+      "valid_for_target": false,
+      "search_ready": false,
+      "normalization_basis": null,
+      "limitations": ["TID corners are electrical scenarios; no permanent-failure or displacement-damage model"]
+    }
+  }
+}

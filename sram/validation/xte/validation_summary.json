@@ -1,0 +1,27 @@
+{
+  "claim": "independent order-of-magnitude check of spectrum-response-rate integration",
+  "target_device_validation": false,
+  "daily_anchor_semantics": "published month-average daily rates; no fabricated Poisson count interval",
+  "results": [
+    {
+      "case": "RXTE_1996_07",
+      "environment": "573 km, 23 deg, AP-8 MIN, 200 mil Al",
+      "published_month_average_upsets_per_ssr_day": 250.0,
+      "predicted_upsets_per_ssr_day": 407.7407666873221,
+      "response_envelope_low": 299.17427113742383,
+      "response_envelope_high": 587.416161294698,
+      "predicted_over_published": 1.6309630667492885,
+      "within_one_order_of_magnitude": true
+    },
+    {
+      "case": "RXTE_2002_07",
+      "environment": "520 km, 23 deg, AP-8 MAX, 200 mil Al",
+      "published_month_average_upsets_per_ssr_day": 70.0,
+      "predicted_upsets_per_ssr_day": 146.18024268646855,
+      "response_envelope_low": 107.44932119986488,
+      "response_envelope_high": 207.51546839963905,
+      "predicted_over_published": 2.088289181235265,
+      "within_one_order_of_magnitude": true
+    }
+  ]
+}

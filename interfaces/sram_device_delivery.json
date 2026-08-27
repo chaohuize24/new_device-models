@@ -1,0 +1,51 @@
+{
+  "schema_version": 2,
+  "device_id": "generic_28nm_sram_measured_proxy",
+  "device_type": "6T_SRAM",
+  "target_specific": false,
+  "claim_level": "engineering_order_of_magnitude",
+  "target_orbit": "400 km, 51.6 deg, 5 years, 1.0 g/cm2 Al equivalent",
+  "channels": {
+    "persistent_state": {
+      "status": "available",
+      "valid_for_target": false,
+      "search_ready": true,
+      "normalization_basis": "per stored bit per second; read BER conditioned on 1500 s known-good rewrite interval",
+      "results": {
+        "partial_low": {"toggle_rate_per_bit_s": 5.738176735727447e-14, "mean_read_ber": 4.303632551548635e-11},
+        "engineering_nominal": {"toggle_rate_per_bit_s": 1.7177458348590855e-13, "mean_read_ber": 1.2883093759230154e-10},
+        "engineering_high": {"toggle_rate_per_bit_s": 9.039518221513858e-13, "mean_read_ber": 6.779638660006928e-10}
+      },
+      "limitations": ["cross-device response envelope, not a confidence interval", "MBU and ECC not included"]
+    },
+    "transient_read": {
+      "status": "missing",
+      "valid_for_target": false,
+      "search_ready": false,
+      "normalization_basis": "per read access while stored state is correct",
+      "limitations": ["sense amplifier, bitline, mux, decoder and control SET cross sections are not available"]
+    },
+    "post_write": {
+      "status": "screening_only",
+      "valid_for_target": false,
+      "search_ready": false,
+      "normalization_basis": "per write access",
+      "results": {"worst_nonstress_qcrit_write_over_hold": 0.930097},
+      "limitations": ["Qcrit ratio is not an absolute dynamic write cross section or BER"]
+    },
+    "correlated_macro_event": {
+      "status": "missing",
+      "valid_for_target": false,
+      "search_ready": false,
+      "normalization_basis": "per macro per second",
+      "limitations": ["address/control errors, SEFI and MBU are not modeled"]
+    },
+    "permanent_failure": {
+      "status": "missing",
+      "valid_for_target": false,
+      "search_ready": false,
+      "normalization_basis": null,
+      "limitations": ["TID electrical corners are functional screens, not permanent-failure statistics; displacement damage not propagated"]
+    }
+  }
+}

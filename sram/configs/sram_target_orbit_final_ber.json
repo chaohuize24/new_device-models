@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "claim_scope": "target-orbit 28 nm SRAM-class engineering BER delivery",
+  "target_orbit": {
+    "altitude_km": 400.0,
+    "inclination_deg": 51.6,
+    "mission_start": "2020-01-01T00:00:00",
+    "mission_end": "2024-12-30T00:00:00",
+    "duration_days": 1825.0,
+    "shielding_al_equivalent_g_cm2": 1.0,
+    "shielding_al_equivalent_mm_approx": 3.7,
+    "spenvis_components": [
+      "AP-8 MIN trapped protons",
+      "ESP-PSYCHIC solar particles",
+      "CREME96 GCR particles"
+    ],
+    "spenvis_spectrum_path": "../../environment/target_orbit/average_LET_proton_and_ion_spectra.txt"
+  },
+  "radiation_rate_input": {
+    "path": "../results/radiation/physical_rate_scenarios.csv",
+    "heavy_ion_curve_path": "../results/radiation/heavy_ion_curve_and_spectrum.csv",
+    "proton_curve_path": "../results/radiation/proton_curve_and_spectrum.csv",
+    "rate_semantics": "measured 28 nm memory-class proxy envelope integrated over target SPENVIS spectra",
+    "scenario_order": [
+      "partial_low",
+      "engineering_nominal",
+      "engineering_high"
+    ],
+    "not_a_statistical_confidence_interval": true
+  },
+  "operation_model": {
+    "fixed_refresh_interval_s": 1500.0,
+    "residence_time_scan_s": [
+      1.0e-6,
+      1.0e-5,
+      1.0e-4,
+      1.0e-3,
+      1.0e-2,
+      1.0e-1,
+      1.0,
+      10.0,
+      60.0,
+      300.0,
+      1500.0
+    ],
+    "read_time_distribution": "uniform between known-good refresh writes",
+    "read_endpoint": "immediately before the next refresh",
+    "write_vulnerable_window_s": 1.55e-9,
+    "write_window_source": "current PTM32 architecture-LUT write testbench WREN high from 0.15 ns to 1.70 ns",
+    "read_sense_window_s": 9.0e-10,
+    "read_window_source": "current PTM32 architecture-LUT latch sense amplifier enabled from 0.80 ns to 1.70 ns",
+    "example_word_bits": 32,
+    "example_array_bits": 262144,
+    "refresh_assumption": "each refresh/write restores a known-correct stored state",
+    "radiation_process": "independent Poisson SBU arrivals; each admitted event toggles one stored bit",
+    "mbu_included": false,
+    "ecc_included": false
+  },
+  "peripheral_design": {
+    "electrical_references": [
+      "../netlists/ptm32_arch_lut/sram6t_read_lut_template.sp",
+      "../netlists/ptm32_arch_lut/sram6t_write_lut_template.sp"
+    ],
+    "technology_model": "PTM 32 nm LP BSIM4 predictive model, not a foundry PDK",
+    "cell": "conventional differential 6T SRAM cell",
+    "local_bitline": "differential BL/BLB; CBL=2+0.140625*local_rows fF, giving 20 fF at 128 local rows",
+    "precharge_equalize": "two PMOS precharge devices plus one NMOS equalizer on each local and global differential bitline pair",
+    "column_mux": "one selected 1-of-M branch represented by a voltage-controlled finite-resistance switch, Ron=200 ohm; other branches enter through global-bitline capacitance",
+    "global_bitline": "differential GBL/GBLB; CGBL=2+0.75*mux fF, giving 5 fF at 4:1 mux",
+    "sense_amplifier": "clocked cross-coupled differential voltage latch with PMOS header and NMOS tail; one sense amplifier per post-mux output bit",
+    "write_path": "complementary full-swing ideal data sources drive BL/BLB through the finite-resistance selected branch",
+    "control": "PRE/EQ/COL/WL/SAEN/WREN are ideal PWL voltage sources; transistor-level decoder, clock generator and write driver are not included",
+    "segmentation": "selected local segment is explicit through local_rows and CBL; unselected segment selectors and global routing are not fully transistor-netlisted",
+    "baseline_organization": "128 rows per local bitline, 4:1 column mux; 128 physical columns therefore provide 32 post-mux outputs and 32 sense amplifiers",
+    "not_included": "PEX/global-wire RC, unselected-cell pattern leakage, package parasitics and target layout"
+  },
+  "electrical_boundary": {
+    "ngspice_condition": "nominal PVT, central TID corner at 14.32 krad(Si)",
+    "observed_write_failures": 0,
+    "write_trials": 256,
+    "observed_read_failures_for_correct_state": 0,
+    "read_trials": 256,
+    "wilson95_zero_failure_upper": 0.01478385642587143,
+    "policy": "functional/mismatch screening only; finite-sample Wilson limit is not added to radiation BER and is not a per-access temporal BER"
+  },
+  "excluded": [
+    "multiple-bit upsets and spatial correlation",
+    "ECC and physical interleaving",
+    "SEL, SEFI, stuck bits and permanent failures",
+    "sense-amplifier and write-driver transient cross sections",
+    "foundry-PDK temporal-noise BER",
+    "target-layout package and BEOL transport"
+  ]
+}

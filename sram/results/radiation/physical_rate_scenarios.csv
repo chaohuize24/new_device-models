@@ -1,0 +1,4 @@
+radiation_scenario,heavy_ion_response_scenario,proton_response_scenario,heavy_ion_rate_per_bit_s,proton_rate_per_bit_s,total_physical_toggle_rate_per_bit_s,upsets_per_bit_day,interpretation,is_target_confidence_bound
+partial_low,low,measured_bands_partial,7.667869049851425e-15,4.971389830742304e-14,5.738176735727447e-14,4.957784699668514e-09,measured-band partial contribution; not a mathematical lower bound for the target SRAM,False
+engineering_nominal,median,cross_technology_log_bridge,1.0612437676658683e-13,6.565020671932172e-14,1.7177458348590855e-13,1.4841324013182499e-08,"cross-device engineering proxy, not a fitted target response",False
+engineering_high,high,gap_plateau_ceiling,8.078258849054836e-13,9.612593724590214e-14,9.039518221513858e-13,7.810143743387974e-08,"deliberately conservative unsupported-gap scenario, not a confidence bound",False

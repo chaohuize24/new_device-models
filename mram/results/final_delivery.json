@@ -1,0 +1,6 @@
+{
+  "device": "SOT_MRAM_1T1MTJ",
+  "workflow": "Qcrit characterize -> RPP cross-section -> SPENVIS integrate -> width aggregate",
+  "rate_table": "results\\mram_spenvis_heavy_ion_rate.tsv",
+  "interface": "../../interfaces/mram_device_delivery.json"
+}

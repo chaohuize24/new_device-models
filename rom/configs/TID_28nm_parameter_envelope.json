@@ -1,0 +1,47 @@
+{
+  "dose_krad_si": 14.32,
+  "scope": "Engineering envelope for a 28 nm bulk CMOS MASK ROM; not a foundry-calibrated radiation model",
+  "recommended_corners": {
+    "central_data_consistent": {
+      "nmos_delta_vth_v": 0.0,
+      "pmos_delta_abs_vth_v": 0.0,
+      "nmos_u0_scale": 1.0,
+      "pmos_u0_scale": 1.0,
+      "off_current_multiplier": 1.0,
+      "subthreshold_swing_delta_v_per_dec": 0.0
+    },
+    "conservative": {
+      "nmos_delta_vth_v": -0.001,
+      "pmos_delta_abs_vth_v": 0.001,
+      "nmos_u0_scale": 0.99,
+      "pmos_u0_scale": 0.99,
+      "off_current_multiplier": 2.0,
+      "subthreshold_swing_delta_v_per_dec": 0.001
+    },
+    "stress_not_a_fit": {
+      "nmos_delta_vth_v": -0.003,
+      "pmos_delta_abs_vth_v": 0.003,
+      "nmos_u0_scale": 0.98,
+      "pmos_u0_scale": 0.98,
+      "off_current_multiplier": 10.0,
+      "subthreshold_swing_delta_v_per_dec": 0.003
+    }
+  },
+  "literature_anchors": {
+    "advanced_node_threshold_resolution": "Many advanced-node points have |delta Vth| below 3 mV at 500 krad(SiO2); 14.32 krad is below the directly measured range.",
+    "28nm_short_nmos_at_1_grad": "Approximately -20 mV delta Vth for a wide, minimum-length nMOS at 1 Grad(SiO2).",
+    "28nm_nmos_at_1_grad": "Most tested nMOS devices remained within about 30 mV delta Vth, while leakage increased strongly only at ultrahigh dose.",
+    "low_dose_limitation": "The 28 nm CERN measurement series generally starts at 0.5 Mrad(SiO2), so no unique fitted coefficient is justified at 14.32 krad(Si).",
+    "published_closest_geometry_extrapolation": {
+      "device_geometry": "commercial 28 nm bulk nMOS, W/L = 100 nm/30 nm, one finger",
+      "ioff0_a": 1.9e-11,
+      "tidcrit_mrad_sio2": 1.24,
+      "power_law_k": 1.4,
+      "equation": "Ioff/Ioff0 = 1 + (TID/TIDcrit)^k",
+      "ioff_multiplier_at_14p32_krad": 1.001938786,
+      "predicted_ioff_a_at_14p32_krad": 1.903683693e-11,
+      "warning": "Extrapolated below the paper's first measured point of 0.5 Mrad; use the multiplier as a nominal literature anchor, not a validated low-dose fit."
+    }
+  },
+  "usage_note": "Run all three corners. Report the central value and the full central-to-stress spread. Do not report the conservative or stress values as measured coefficients."
+}

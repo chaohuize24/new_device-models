@@ -1,0 +1,40 @@
+{
+  "device": "Hitachi HM628128 128Kx8 SRAM",
+  "response": "proton-induced SBU cross section per stored bit versus incident proton energy",
+  "source_paper": {
+    "citation": "C. Poivey et al., In-flight observations of long-term SEE performance on XTE SSRs, IEEE Radiation Effects Data Workshop, 2004",
+    "doi": "10.1109/REDW.2004.1352904",
+    "nasa_ntrs": "https://ntrs.nasa.gov/citations/20040171189",
+    "figure": "Figure 8"
+  },
+  "archived_images": {
+    "full_page": "source_figures/poivey_2004_page_fig6_9_author_fulltext.png",
+    "figure_crop": "source_figures/poivey_2004_fig8_proton_crop.png"
+  },
+  "axis_calibration_approximate_source_image_pixels": {
+    "x_axis": {
+      "pixel_at_0_mev": 707,
+      "pixel_at_250_mev": 1109,
+      "mapping": "E_MeV = 250*(x-707)/(1109-707)"
+    },
+    "y_axis": {
+      "pixel_at_1e_minus_12_cm2_per_bit": 120,
+      "pixel_at_1e_minus_15_cm2_per_bit": 390,
+      "mapping": "log10(sigma) = -12 - 3*(y-120)/(390-120)"
+    }
+  },
+  "assigned_digitization_uncertainty": {
+    "energy_mev": 2.0,
+    "log10_sigma_dex": 0.12,
+    "meaning": "image-reading uncertainty only; it is not an experimental confidence interval"
+  },
+  "fit_policy": {
+    "equation": "sigma(E)=sigma_sat*(1-exp(-((E-E0)/W)^S)) for E>E0, otherwise 0",
+    "shape_fixed": 1.0,
+    "reason": "Only four energy locations and no sub-threshold point are visible. A free four-parameter fit is not identifiable; fixing S=1 prevents a numerically precise but physically unconstrained fit.",
+    "nominal": "least-squares in log10(sigma) to the geometric mean of the two independent Figure-8 datasets at each energy",
+    "envelope": "pointwise min/max of separate fixed-S fits to references 9 and 11, expanded by +/-0.12 dex digitization uncertainty",
+    "not_a_confidence_interval": true
+  },
+  "independence_statement": "No XTE flight upset count was used to digitize or fit this response. Flight counts remain reserved for later validation."
+}

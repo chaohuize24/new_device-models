@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "scope": "generic_32nm_6T_SRAM_pre_layout_architecture_latency_energy_area_LUT",
+  "model": "../../models/PTM_bulk/32nm_LP.pm",
+  "model_status": "predictive_technology_model_not_foundry_PDK",
+  "architecture_grid": {
+    "total_rows": [256, 512, 1024, 2048, 4096, 8192],
+    "physical_columns": [64, 128, 256],
+    "rows_per_local_bitline": [64, 128, 256],
+    "column_mux_ratio": [1, 2, 4, 8],
+    "banks": 1
+  },
+  "cell": {
+    "pull_down_width_nm": 120.0,
+    "pull_up_width_nm": 90.0,
+    "access_width_nm": 100.0,
+    "external_node_capacitance_ff": 0.35
+  },
+  "periphery": {
+    "precharge_pmos_width_nm": 300.0,
+    "equalizer_nmos_width_nm": 160.0,
+    "mux_switch_ron_ohm": 200.0,
+    "sense_nmos_width_nm": 240.0,
+    "sense_pmos_width_nm": 480.0,
+    "sense_tail_nmos_width_nm": 480.0,
+    "sense_supply_pmos_width_nm": 960.0
+  },
+  "parasitic_scaling": {
+    "local_bitline_fixed_ff": 2.0,
+    "local_bitline_per_row_ff": 0.140625,
+    "global_bitline_fixed_ff": 2.0,
+    "global_bitline_per_mux_input_ff": 0.75,
+    "calibration_note": "gives CBL=20 fF at 128 rows and CGBL=5 fF at mux=4, matching the existing PTM32 access proxy",
+    "status": "declared pre-layout linear scaling; replace with PEX"
+  },
+  "timing": {
+    "wordline_rise_ns": 0.45,
+    "sense_enable_ns": 0.80,
+    "access_end_ns": 1.70,
+    "reprecharge_start_ns": 1.72,
+    "transient_end_ns": 2.40,
+    "configured_cycle_time_ns": 2.0,
+    "cycle_recovery_margin_ns": 0.50
+  },
+  "area_proxy": {
+    "cell_area_um2": 0.24,
+    "cell_area_basis": "public 32 nm-class SRAM cell area scale; not the PTM layout or a target PDK",
+    "sense_amp_cell_equivalents_per_output_bit": 40.0,
+    "precharge_cell_equivalents_per_physical_column": 4.0,
+    "column_mux_cell_equivalents_per_physical_column": 3.0,
+    "segment_select_cell_equivalents_per_segment_column": 1.5,
+    "row_decoder_cell_equivalents_per_row": 2.0,
+    "routing_and_control_overhead_factor": 1.15,
+    "status": "relative architecture-ranking proxy; replace with layout or CACTI-calibrated macro area"
+  },
+  "conditional_pvt_corners": {
+    "low_vdd_cold": {"vdd_v": 0.81, "temperature_c": -40.0},
+    "low_vdd_hot": {"vdd_v": 0.81, "temperature_c": 85.0},
+    "nominal": {"vdd_v": 0.90, "temperature_c": 27.0},
+    "high_vdd_cold": {"vdd_v": 0.99, "temperature_c": -40.0},
+    "high_vdd_hot": {"vdd_v": 0.99, "temperature_c": 85.0}
+  },
+  "tid_corners_at_14p32_krad_si": {
+    "central": {"nmos_delta_vth_v": 0.0, "pmos_signed_delta_vth_v": 0.0, "mobility_scale": 1.0},
+    "conservative": {"nmos_delta_vth_v": -0.001, "pmos_signed_delta_vth_v": -0.001, "mobility_scale": 0.99},
+    "stress_not_a_fit": {"nmos_delta_vth_v": -0.003, "pmos_signed_delta_vth_v": -0.003, "mobility_scale": 0.98}
+  },
+  "energy_policy": {
+    "ngspice_selected_path": "integrate net energy delivered by cell/periphery and control voltage sources over one full access plus re-precharge",
+    "read_word_expansion": "selected-path energy times output bits plus CBL*VDD^2 for each additionally activated but unselected physical column",
+    "write_word_expansion": "selected write-path energy times output bits",
+    "status": "pre-layout dynamic-energy proxy; decoder and global wiring not explicitly extracted"
+  }
+}

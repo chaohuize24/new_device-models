@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "electrical_condition_scenarios": [
+    {
+      "id": "ptm32_access_low_vdd_cold__tid_central",
+      "post_write_wrong_probability": 0.0,
+      "read_error_given_correct_state": 0.0,
+      "read_error_given_wrong_state": 1.0,
+      "source": "ngspice PTM32 6T access engineering Monte Carlo",
+      "source_condition_id": "low_vdd_cold__tid_central",
+      "is_ngspice_derived": true,
+      "is_total_target_ber": false,
+      "statistical_semantics": "population fraction under declared engineering mismatch priors, conditional on each deterministic PVT/TID corner; not per-access temporal noise BER"
+    },
+    {
+      "id": "ptm32_access_low_vdd_cold__tid_conservative",
+      "post_write_wrong_probability": 0.0,
+      "read_error_given_correct_state": 0.0,
+      "read_error_given_wrong_state": 1.0,
+      "source": "ngspice PTM32 6T access engineering Monte Carlo",
+      "source_condition_id": "low_vdd_cold__tid_conservative",
+      "is_ngspice_derived": true,
+      "is_total_target_ber": false,
+      "statistical_semantics": "population fraction under declared engineering mismatch priors, conditional on each deterministic PVT/TID corner; not per-access temporal noise BER"
+    },
+    {
+      "id": "ptm32_access_low_vdd_cold__tid_stress_not_a_fit",
+      "post_write_wrong_probability": 0.0,
+      "read_error_given_correct_state": 0.0,
+      "read_error_given_wrong_state": 1.0,
+      "source": "ngspice PTM32 6T access engineering Monte Carlo",
+      "source_condition_id": "low_vdd_cold__tid_stress_not_a_fit",
+      "is_ngspice_derived": true,
+      "is_total_target_ber": false,
+      "statistical_semantics": "population fraction under declared engineering mismatch priors, conditional on each deterministic PVT/TID corner; not per-access temporal noise BER"
+    },
+    {
+      "id": "ptm32_access_low_vdd_hot__tid_central",
+      "post_write_wrong_probability": 0.0,
+      "read_error_given_correct_state": 0.0,
+      "read_error_given_wrong_state": 1.0,
+      "source": "ngspice PTM32 6T access engineering Monte Carlo",
+      "source_condition_id": "low_vdd_hot__tid_central",
+      "is_ngspice_derived": true,
+      "is_total_target_ber": false,
+      "statistical_semantics": "population fraction under declared engineering mismatch priors, conditional on each deterministic PVT/TID corner; not per-access temporal noise BER"
+    },
+    {
+      "id": "ptm32_access_low_vdd_hot__tid_conservative",
+      "post_write_wrong_probability": 0.0,
+      "read_error_given_correct_state": 0.0,
+      "read_error_given_wrong_state": 1.0,
+      "source": "ngspice PTM32 6T access engineering Monte Carlo",
+      "source_condition_id": "low_vdd_hot__tid_conservative",
+      "is_ngspice_derived": true,
+      "is_total_target_ber": false,
+      "statistical_semantics": "population fraction under declared engineering mismatch priors, conditional on each deterministic PVT/TID corner; not per-access temporal noise BER"
+    },
+    {
+      "id": "ptm32_access_low_vdd_hot__tid_stress_not_a_fit",
+      "post_write_wrong_probability": 0.0,
+      "read_error_given_correct_state": 0.0,
+      "read_error_given_wrong_state": 1.0,
+      "source": "ngspice PTM32 6T access engineering Monte Carlo",
+      "source_condition_id": "low_vdd_hot__tid_stress_not_a_fit",
+      "is_ngspice_derived": true,
+      "is_total_target_ber": false,
+      "statistical_semantics": "population fraction under declared engineering mismatch priors, conditional on each deterministic PVT/TID corner; not per-access temporal noise BER"
+    },
+    {
+      "id": "ptm32_access_nominal__tid_central",
+      "post_write_wrong_probability": 0.0,
+      "read_error_given_correct_state": 0.0,
+      "read_error_given_wrong_state": 1.0,
+      "source": "ngspice PTM32 6T access engineering Monte Carlo",
+      "source_condition_id": "nominal__tid_central",
+      "is_ngspice_derived": true,
+      "is_total_target_ber": false,
+      "statistical_semantics": "population fraction under declared engineering mismatch priors, conditional on each deterministic PVT/TID corner; not per-access temporal noise BER"
+    },
+    {
+      "id": "ptm32_access_nominal__tid_conservative",
+      "post_write_wrong_probability": 0.0,
+      "read_error_given_correct_state": 0.0,
+      "read_error_given_wrong_state": 1.0,
+      "source": "ngspice PTM32 6T access engineering Monte Carlo",
+      "source_condition_id": "nominal__tid_conservative",
+      "is_ngspice_derived": true,
+      "is_total_target_ber": false,
+      "statistical_semantics": "population fraction under declared engineering mismatch priors, conditional on each deterministic PVT/TID corner; not per-access temporal noise BER"
+    },
+    {
+      "id": "ptm32_access_nominal__tid_stress_not_a_fit",
+      "post_write_wrong_probability": 0.0,
+      "read_error_given_correct_state": 0.0,
+      "read_error_given_wrong_state": 1.0,
+      "source": "ngspice PTM32 6T access engineering Monte Carlo",
+      "source_condition_id": "nominal__tid_stress_not_a_fit",
+      "is_ngspice_derived": true,
+      "is_total_target_ber": false,
+      "statistical_semantics": "population fraction under declared engineering mismatch priors, conditional on each deterministic PVT/TID corner; not per-access temporal noise BER"
+    },
+    {
+      "id": "ptm32_access_high_vdd_cold__tid_central",
+      "post_write_wrong_probability": 0.0,
+      "read_error_given_correct_state": 0.0,
+      "read_error_given_wrong_state": 1.0,
+      "source": "ngspice PTM32 6T access engineering Monte Carlo",
+      "source_condition_id": "high_vdd_cold__tid_central",
+      "is_ngspice_derived": true,
+      "is_total_target_ber": false,
+      "statistical_semantics": "population fraction under declared engineering mismatch priors, conditional on each deterministic PVT/TID corner; not per-access temporal noise BER"
+    },
+    {
+      "id": "ptm32_access_high_vdd_cold__tid_conservative",
+      "post_write_wrong_probability": 0.0,
+      "read_error_given_correct_state": 0.0,
+      "read_error_given_wrong_state": 1.0,
+      "source": "ngspice PTM32 6T access engineering Monte Carlo",
+      "source_condition_id": "high_vdd_cold__tid_conservative",
+      "is_ngspice_derived": true,
+      "is_total_target_ber": false,
+      "statistical_semantics": "population fraction under declared engineering mismatch priors, conditional on each deterministic PVT/TID corner; not per-access temporal noise BER"
+    },
+    {
+      "id": "ptm32_access_high_vdd_cold__tid_stress_not_a_fit",
+      "post_write_wrong_probability": 0.0,
+      "read_error_given_correct_state": 0.0,
+      "read_error_given_wrong_state": 1.0,
+      "source": "ngspice PTM32 6T access engineering Monte Carlo",
+      "source_condition_id": "high_vdd_cold__tid_stress_not_a_fit",
+      "is_ngspice_derived": true,
+      "is_total_target_ber": false,
+      "statistical_semantics": "population fraction under declared engineering mismatch priors, conditional on each deterministic PVT/TID corner; not per-access temporal noise BER"
+    },
+    {
+      "id": "ptm32_access_high_vdd_hot__tid_central",
+      "post_write_wrong_probability": 0.0,
+      "read_error_given_correct_state": 0.0,
+      "read_error_given_wrong_state": 1.0,
+      "source": "ngspice PTM32 6T access engineering Monte Carlo",
+      "source_condition_id": "high_vdd_hot__tid_central",
+      "is_ngspice_derived": true,
+      "is_total_target_ber": false,
+      "statistical_semantics": "population fraction under declared engineering mismatch priors, conditional on each deterministic PVT/TID corner; not per-access temporal noise BER"
+    },
+    {
+      "id": "ptm32_access_high_vdd_hot__tid_conservative",
+      "post_write_wrong_probability": 0.0,
+      "read_error_given_correct_state": 0.0,
+      "read_error_given_wrong_state": 1.0,
+      "source": "ngspice PTM32 6T access engineering Monte Carlo",
+      "source_condition_id": "high_vdd_hot__tid_conservative",
+      "is_ngspice_derived": true,
+      "is_total_target_ber": false,
+      "statistical_semantics": "population fraction under declared engineering mismatch priors, conditional on each deterministic PVT/TID corner; not per-access temporal noise BER"
+    },
+    {
+      "id": "ptm32_access_high_vdd_hot__tid_stress_not_a_fit",
+      "post_write_wrong_probability": 0.0,
+      "read_error_given_correct_state": 0.0,
+      "read_error_given_wrong_state": 1.0,
+      "source": "ngspice PTM32 6T access engineering Monte Carlo",
+      "source_condition_id": "high_vdd_hot__tid_stress_not_a_fit",
+      "is_ngspice_derived": true,
+      "is_total_target_ber": false,
+      "statistical_semantics": "population fraction under declared engineering mismatch priors, conditional on each deterministic PVT/TID corner; not per-access temporal noise BER"
+    }
+  ],
+  "source_config": "sram/configs/ptm32_access_engineering_mc.json",
+  "model": "models/PTM_bulk/32nm_LP.pm",
+  "samples_per_condition": 128,
+  "probability_semantics": "population fraction under declared engineering mismatch priors, conditional on each deterministic PVT/TID corner; not per-access temporal noise BER",
+  "is_foundry_pdk_result": false,
+  "is_total_target_ber": false
+}

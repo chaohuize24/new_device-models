@@ -1,0 +1,80 @@
+{
+  "schema_version": 2,
+  "device_id": "sot_mram_1t1mtj_pre_layout",
+  "device_type": "SOT_MRAM",
+  "target_specific": false,
+  "claim_level": "incomplete_lower_bound",
+  "target_orbit": "400 km, 51.6 deg, 5 years, 1.0 g/cm2 Al equivalent",
+  "channels": {
+    "persistent_state": {
+      "status": "missing",
+      "valid_for_target": false,
+      "search_ready": false,
+      "normalization_basis": "per stored bit per second",
+      "limitations": [
+        "literature reports MTJ storage is intrinsically tolerant to heavy-ion bit flips",
+        "no target-macro per-bit sigma integrated in v1",
+        "do not reuse SRAM 28 nm proxy curves"
+      ]
+    },
+    "transient_read": {
+      "status": "screening_only",
+      "valid_for_target": false,
+      "search_ready": false,
+      "normalization_basis": "per active output bit per 0.72 ns read window",
+      "results": {
+        "heavy_ion_lower_bound_low": 1.190868117931188e-26,
+        "heavy_ion_lower_bound_nominal": 1.0796507010033515e-24,
+        "heavy_ion_lower_bound_high": 3.9054968269253315e-22,
+        "proton_lower_bound_low": 8.194720404726873e-20,
+        "proton_lower_bound_nominal": 2.6504090600911855e-19,
+        "proton_lower_bound_high": 3.951988878142266e-18,
+        "proton_nominal_low": 1.4453191779753798e-19,
+        "proton_nominal_nominal": 4.745346191445597e-19,
+        "proton_nominal_high": 1.1986591912882278e-17
+      },
+      "limitations": [
+        "CMOS read periphery only; SOT write path and decoder/control SET absent",
+        "RPP area, depth and collection efficiency are pre-layout engineering assumptions",
+        "MTJ read chain characterized at read_proxy_v1; literature R variants pass functional screen but are not re-characterized for Qcrit",
+        "proton channel uses silicon LET proxy + same Qcrit samples; do not add to HI probability without union model",
+        "proton results are not MTJ storage flips"
+      ]
+    },
+    "post_write": {
+      "status": "screening_only",
+      "valid_for_target": false,
+      "search_ready": false,
+      "normalization_basis": "per SOT write pulse (2 ns electrical window)",
+      "results": {
+        "minimum_write_qcrit_fc": 0.00625,
+        "minimum_hold_qcrit_fc": 0.00625,
+        "min_write_over_min_hold_qcrit": 1.0,
+        "literature_i_write_a": 0.0008
+      },
+      "limitations": [
+        "selected-path 1T1MTJ + SOT-channel double-exponential Qcrit screen only",
+        "hold comparison uses high-Z MTJ proxy (500 kOhm) and weakened write drivers; not intrinsic WER",
+        "does not convert Qcrit to dynamic particle cross section",
+        "address decoder, control logic and SEFI absent"
+      ]
+    },
+    "correlated_macro_event": {
+      "status": "missing",
+      "valid_for_target": false,
+      "search_ready": false,
+      "normalization_basis": "per macro per second",
+      "limitations": ["address decoder, control and SEFI response are not modeled"]
+    },
+    "permanent_failure": {
+      "status": "missing",
+      "valid_for_target": false,
+      "search_ready": false,
+      "normalization_basis": null,
+      "limitations": [
+        "TNS 2025 reports MgO short-circuit at extreme LET but no permanent-failure rate model",
+        "TID corners are CMOS electrical scenarios only"
+      ]
+    }
+  }
+}

@@ -1,0 +1,340 @@
+{
+  "schema_version": 1,
+  "config": {
+    "schema_version": 1,
+    "scope": "generic_32nm_6T_SRAM_dynamic_write_strike_screen",
+    "model": "../../models/PTM_bulk/32nm_LP.pm",
+    "model_status": "predictive_technology_model_not_foundry_PDK",
+    "cell": {
+      "pull_down_width_nm": 120.0,
+      "pull_up_width_nm": 90.0,
+      "access_width_nm": 100.0,
+      "external_node_capacitance_ff": 0.35
+    },
+    "selected_write_path": {
+      "rows_per_local_bitline": 128,
+      "local_bitline_capacitance_ff": 20.0,
+      "write_driver_nmos_width_nm": 800.0,
+      "write_driver_pmos_width_nm": 1600.0,
+      "column_mux_nmos_width_nm": 240.0,
+      "column_mux_pmos_width_nm": 480.0,
+      "implementation": "finite transistor-level complementary write drivers and one selected transmission-gate column branch",
+      "excluded": [
+        "row and column address decoder logic",
+        "address latches and clock tree",
+        "unselected mux branches",
+        "target PEX and package parasitics"
+      ]
+    },
+    "timing": {
+      "write_enable_start_ns": 0.15,
+      "wordline_start_ns": 0.25,
+      "write_enable_end_ns": 1.7,
+      "wordline_end_ns": 1.7,
+      "final_decision_ns": 2.3,
+      "transient_end_ns": 2.4,
+      "strike_times_ns": [
+        0.1,
+        0.16,
+        0.24,
+        0.26,
+        0.4,
+        0.8,
+        1.2,
+        1.6,
+        1.69,
+        1.74
+      ]
+    },
+    "strike": {
+      "pulse": "double_exponential_normalized_to_collected_charge",
+      "rise_time_ps": 5.0,
+      "fall_time_ps": 20.0,
+      "nodes": [
+        "q",
+        "qb",
+        "bl",
+        "blb",
+        "d",
+        "db"
+      ],
+      "qcrit_initial_high_fc": 0.4,
+      "qcrit_max_fc": 12.8,
+      "qcrit_tolerance_fc": 0.01,
+      "polarity_policy": "remove charge from a node that should be high or add charge to a node that should be low"
+    },
+    "screen_strategy": {
+      "full_phase_condition": {
+        "pvt_corner": "nominal",
+        "tid_corner": "central"
+      },
+      "all_corner_strike_times_ns": [
+        1.6,
+        1.69,
+        1.74
+      ],
+      "all_corner_nodes": [
+        "q",
+        "qb",
+        "bl",
+        "blb"
+      ],
+      "all_corner_desired_bits": [
+        1
+      ],
+      "reason": "the full nominal scan locates the vulnerable phase and confirms 0/1 and D/DB symmetry; all 15 PVT/TID combinations then check the cell/bitline nodes immediately before and after write closure"
+    },
+    "conditional_pvt_corners": {
+      "low_vdd_cold": {
+        "vdd_v": 0.81,
+        "temperature_c": -40.0
+      },
+      "low_vdd_hot": {
+        "vdd_v": 0.81,
+        "temperature_c": 85.0
+      },
+      "nominal": {
+        "vdd_v": 0.9,
+        "temperature_c": 27.0
+      },
+      "high_vdd_cold": {
+        "vdd_v": 0.99,
+        "temperature_c": -40.0
+      },
+      "high_vdd_hot": {
+        "vdd_v": 0.99,
+        "temperature_c": 85.0
+      }
+    },
+    "tid_corners_at_14p32_krad_si": {
+      "central": {
+        "nmos_delta_vth_v": 0.0,
+        "pmos_signed_delta_vth_v": 0.0,
+        "mobility_scale": 1.0
+      },
+      "conservative": {
+        "nmos_delta_vth_v": -0.001,
+        "pmos_signed_delta_vth_v": -0.001,
+        "mobility_scale": 0.99
+      },
+      "stress_not_a_fit": {
+        "nmos_delta_vth_v": -0.003,
+        "pmos_signed_delta_vth_v": -0.003,
+        "mobility_scale": 0.98
+      }
+    },
+    "importance_screen": {
+      "nominal_radiation_rate_per_bit_s": 1.7177458348590855e-13,
+      "residence_times_s": [
+        1e-06,
+        0.001,
+        1.0,
+        1500.0
+      ],
+      "write_window_s": 1.55e-09,
+      "criterion": "report the dynamic-to-hold cross-section multiplier required for one write to equal mean hold-state error over each residence time"
+    },
+    "claim_boundary": "Qcrit ratios are electrical vulnerability screens, not dynamic cross sections or absolute write BER"
+  },
+  "resolved_model": "models/PTM_bulk/32nm_LP.pm",
+  "summary": {
+    "method": "PTM32 selected-path double-exponential collected-charge Qcrit screen",
+    "write_cases": 288,
+    "hold_cases": 32,
+    "minimum_write_qcrit_fc": 1.028125,
+    "p05_write_qcrit_fc": 1.0415625000000002,
+    "median_write_qcrit_fc": 2.3125,
+    "minimum_hold_qcrit_fc": 1.046875,
+    "median_hold_qcrit_fc": 1.934375,
+    "worst_nonstress_min_write_over_hold_qcrit": 0.9300970873786407,
+    "not_bracketed_write_cases": 204,
+    "baseline_failed_write_cases": 0,
+    "address_decoder_in_transient_netlist": false,
+    "address_decoder_only_in_area_proxy": true,
+    "claim_boundary": "Qcrit ratios are electrical vulnerability screens, not dynamic cross sections or absolute write BER"
+  },
+  "condition_summary": [
+    {
+      "condition_id": "low_vdd_cold__tid_central",
+      "write_bracketed_cases": 5,
+      "write_not_bracketed_cases": 7,
+      "minimum_write_qcrit_fc": 1.503125,
+      "median_write_qcrit_fc": 2.5656250000000007,
+      "minimum_hold_qcrit_fc": 1.615625,
+      "median_hold_qcrit_fc": 2.090625,
+      "minimum_write_over_minimum_hold": 0.9303675048355899
+    },
+    {
+      "condition_id": "low_vdd_cold__tid_conservative",
+      "write_bracketed_cases": 5,
+      "write_not_bracketed_cases": 7,
+      "minimum_write_qcrit_fc": 1.496875,
+      "median_write_qcrit_fc": 2.5718750000000004,
+      "minimum_hold_qcrit_fc": 1.609375,
+      "median_hold_qcrit_fc": 2.090625,
+      "minimum_write_over_minimum_hold": 0.9300970873786407
+    },
+    {
+      "condition_id": "low_vdd_cold__tid_stress_not_a_fit",
+      "write_bracketed_cases": 5,
+      "write_not_bracketed_cases": 7,
+      "minimum_write_qcrit_fc": 1.490625,
+      "median_write_qcrit_fc": 2.578125000000001,
+      "minimum_hold_qcrit_fc": 1.6031250000000001,
+      "median_hold_qcrit_fc": 2.0906250000000006,
+      "minimum_write_over_minimum_hold": 0.9298245614035088
+    },
+    {
+      "condition_id": "low_vdd_hot__tid_central",
+      "write_bracketed_cases": 6,
+      "write_not_bracketed_cases": 6,
+      "minimum_write_qcrit_fc": 1.034375,
+      "median_write_qcrit_fc": 1.584375,
+      "minimum_hold_qcrit_fc": 1.053125,
+      "median_hold_qcrit_fc": 1.3,
+      "minimum_write_over_minimum_hold": 0.9821958456973293
+    },
+    {
+      "condition_id": "low_vdd_hot__tid_conservative",
+      "write_bracketed_cases": 6,
+      "write_not_bracketed_cases": 6,
+      "minimum_write_qcrit_fc": 1.034375,
+      "median_write_qcrit_fc": 1.58125,
+      "minimum_hold_qcrit_fc": 1.046875,
+      "median_hold_qcrit_fc": 1.2937500000000002,
+      "minimum_write_over_minimum_hold": 0.9880597014925373
+    },
+    {
+      "condition_id": "low_vdd_hot__tid_stress_not_a_fit",
+      "write_bracketed_cases": 6,
+      "write_not_bracketed_cases": 6,
+      "minimum_write_qcrit_fc": 1.028125,
+      "median_write_qcrit_fc": 1.58125,
+      "minimum_hold_qcrit_fc": 1.046875,
+      "median_hold_qcrit_fc": 1.2937500000000002,
+      "minimum_write_over_minimum_hold": 0.9820895522388059
+    },
+    {
+      "condition_id": "nominal__tid_central",
+      "write_bracketed_cases": 12,
+      "write_not_bracketed_cases": 108,
+      "minimum_write_qcrit_fc": 1.3843750000000001,
+      "median_write_qcrit_fc": 2.5250000000000004,
+      "minimum_hold_qcrit_fc": 1.4343750000000002,
+      "median_hold_qcrit_fc": 1.9031250000000002,
+      "minimum_write_over_minimum_hold": 0.9651416122004357
+    },
+    {
+      "condition_id": "nominal__tid_conservative",
+      "write_bracketed_cases": 6,
+      "write_not_bracketed_cases": 6,
+      "minimum_write_qcrit_fc": 1.378125,
+      "median_write_qcrit_fc": 2.5250000000000004,
+      "minimum_hold_qcrit_fc": 1.4281250000000003,
+      "median_hold_qcrit_fc": 1.9000000000000004,
+      "minimum_write_over_minimum_hold": 0.9649890590809627
+    },
+    {
+      "condition_id": "nominal__tid_stress_not_a_fit",
+      "write_bracketed_cases": 6,
+      "write_not_bracketed_cases": 6,
+      "minimum_write_qcrit_fc": 1.371875,
+      "median_write_qcrit_fc": 2.5250000000000004,
+      "minimum_hold_qcrit_fc": 1.4218750000000002,
+      "median_hold_qcrit_fc": 1.896875,
+      "minimum_write_over_minimum_hold": 0.9648351648351646
+    },
+    {
+      "condition_id": "high_vdd_cold__tid_central",
+      "write_bracketed_cases": 4,
+      "write_not_bracketed_cases": 8,
+      "minimum_write_qcrit_fc": 2.246875,
+      "median_write_qcrit_fc": 3.03125,
+      "minimum_hold_qcrit_fc": 2.3218750000000004,
+      "median_hold_qcrit_fc": 3.03125,
+      "minimum_write_over_minimum_hold": 0.9676985195154777
+    },
+    {
+      "condition_id": "high_vdd_cold__tid_conservative",
+      "write_bracketed_cases": 4,
+      "write_not_bracketed_cases": 8,
+      "minimum_write_qcrit_fc": 2.2406249999999996,
+      "median_write_qcrit_fc": 3.0281249999999997,
+      "minimum_hold_qcrit_fc": 2.315625,
+      "median_hold_qcrit_fc": 3.0281249999999997,
+      "minimum_write_over_minimum_hold": 0.9676113360323886
+    },
+    {
+      "condition_id": "high_vdd_cold__tid_stress_not_a_fit",
+      "write_bracketed_cases": 4,
+      "write_not_bracketed_cases": 8,
+      "minimum_write_qcrit_fc": 2.234375,
+      "median_write_qcrit_fc": 3.03125,
+      "minimum_hold_qcrit_fc": 2.309375,
+      "median_hold_qcrit_fc": 3.03125,
+      "minimum_write_over_minimum_hold": 0.9675236806495263
+    },
+    {
+      "condition_id": "high_vdd_hot__tid_central",
+      "write_bracketed_cases": 5,
+      "write_not_bracketed_cases": 7,
+      "minimum_write_qcrit_fc": 1.365625,
+      "median_write_qcrit_fc": 2.246875,
+      "minimum_hold_qcrit_fc": 1.3906250000000002,
+      "median_hold_qcrit_fc": 1.8250000000000002,
+      "minimum_write_over_minimum_hold": 0.9820224719101123
+    },
+    {
+      "condition_id": "high_vdd_hot__tid_conservative",
+      "write_bracketed_cases": 5,
+      "write_not_bracketed_cases": 7,
+      "minimum_write_qcrit_fc": 1.359375,
+      "median_write_qcrit_fc": 2.2406249999999996,
+      "minimum_hold_qcrit_fc": 1.3843750000000001,
+      "median_hold_qcrit_fc": 1.81875,
+      "minimum_write_over_minimum_hold": 0.9819413092550789
+    },
+    {
+      "condition_id": "high_vdd_hot__tid_stress_not_a_fit",
+      "write_bracketed_cases": 5,
+      "write_not_bracketed_cases": 7,
+      "minimum_write_qcrit_fc": 1.3531250000000001,
+      "median_write_qcrit_fc": 2.2406249999999996,
+      "minimum_hold_qcrit_fc": 1.378125,
+      "median_hold_qcrit_fc": 1.8156249999999998,
+      "minimum_write_over_minimum_hold": 0.981859410430839
+    }
+  ],
+  "importance_thresholds": [
+    {
+      "residence_time_s": 1e-06,
+      "mean_hold_state_error_probability": 8.588729174295427e-20,
+      "static_cross_section_write_window_proxy": 2.6625060440315827e-22,
+      "dynamic_to_hold_cross_section_multiplier_needed_for_equal_contribution": 322.5806451612903
+    },
+    {
+      "residence_time_s": 0.001,
+      "mean_hold_state_error_probability": 8.588729174295427e-17,
+      "static_cross_section_write_window_proxy": 2.6625060440315827e-22,
+      "dynamic_to_hold_cross_section_multiplier_needed_for_equal_contribution": 322580.6451612903
+    },
+    {
+      "residence_time_s": 1.0,
+      "mean_hold_state_error_probability": 8.588729174294444e-14,
+      "static_cross_section_write_window_proxy": 2.6625060440315827e-22,
+      "dynamic_to_hold_cross_section_multiplier_needed_for_equal_contribution": 322580645.1612534
+    },
+    {
+      "residence_time_s": 1500.0,
+      "mean_hold_state_error_probability": 1.2883093759230154e-10,
+      "static_cross_section_write_window_proxy": 2.6625060440315827e-22,
+      "dynamic_to_hold_cross_section_multiplier_needed_for_equal_contribution": 483870967658.8187
+    }
+  ],
+  "files": {
+    "write_cases": "sram/results/write_strike_screen/write_qcrit_cases.csv",
+    "hold_cases": "sram/results/write_strike_screen/hold_qcrit_cases.csv",
+    "condition_summary": "sram/results/write_strike_screen/qcrit_by_condition.csv",
+    "importance_thresholds": "sram/results/write_strike_screen/importance_thresholds.csv"
+  }
+}

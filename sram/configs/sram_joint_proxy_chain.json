@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "claim_scope": "28 nm SRAM-class measured proxy radiation arrivals plus a joint write-state-read model for architecture scenarios",
+  "spectra": {
+    "let": {
+      "type": "spenvis_let_text",
+      "path": "../../environment/target_orbit/average_LET_proton_and_ion_spectra.txt",
+      "solid_angle_sr": 12.566370614359172,
+      "interpretation": "5-year mission-average spacecraft-shielded silicon LET spectrum, 1.0 g/cm2 Al equivalent"
+    },
+    "proton": {
+      "type": "spenvis_proton_text",
+      "path": "../../environment/target_orbit/average_LET_proton_and_ion_spectra.txt",
+      "solid_angle_sr": 12.566370614359172,
+      "interpretation": "proton-energy block from the same 5-year, 1.0 g/cm2 Al-equivalent SPENVIS run"
+    }
+  },
+  "heavy_ion_proxy_table": {
+    "path": "../inputs/28nm_bulk_sram_heavy_ion_weibull.csv",
+    "ensemble_policy": "pointwise minimum, median and maximum of three measured 28 nm bulk memory proxies",
+    "not_a_confidence_interval": true
+  },
+  "proton_proxy_table": {
+    "path": "../inputs/28nm_sram_proton_response_points.csv",
+    "scenario_policy": {
+      "measured_bands_partial": "use measured ST28 FDSOI points only from 2-8 MeV and Kintex-7 points from 80 MeV upward; set the unsupported 8-80 MeV gap to zero",
+      "cross_technology_log_bridge": "log-log interpolate across the unsupported 8-80 MeV gap between two different measured proxy technologies",
+      "gap_plateau_ceiling": "use the Kintex-7 80 MeV cross section throughout the unsupported 8-80 MeV gap"
+    },
+    "not_a_confidence_interval": true,
+    "not_one_physical_device_curve": true
+  },
+  "paired_radiation_scenarios": [
+    {
+      "id": "partial_low",
+      "heavy_ion": "low",
+      "proton": "measured_bands_partial",
+      "interpretation": "measured-band partial contribution; not a mathematical lower bound for the target SRAM"
+    },
+    {
+      "id": "engineering_nominal",
+      "heavy_ion": "median",
+      "proton": "cross_technology_log_bridge",
+      "interpretation": "cross-device engineering proxy, not a fitted target response"
+    },
+    {
+      "id": "engineering_high",
+      "heavy_ion": "high",
+      "proton": "gap_plateau_ceiling",
+      "interpretation": "deliberately conservative unsupported-gap scenario, not a confidence bound"
+    }
+  ],
+  "system_scenarios": {
+    "reset_or_scrub_intervals_s": [1.0, 60.0, 1500.0, 3600.0, 86400.0],
+    "read_time_distribution": "uniform within each write/scrub interval",
+    "secded_codeword_bits": 72,
+    "array_bits": [262144, 1048576],
+    "electrical_condition_table": {
+      "path": "../results/access_screen/electrical_condition_scenarios.json",
+      "status": "ngspice PTM32 engineering Monte Carlo; not foundry PDK or target PEX"
+    },
+    "report_electrical_scenario_id": "ptm32_access_nominal__tid_central",
+    "required_for_total_ber": "replace PTM32 engineering priors and pre-layout parasitics with target foundry statistical models/PEX, then use validated rare-event statistics and temporal-noise inputs"
+  },
+  "output_policy": {
+    "sum_particle_channel_rates": true,
+    "combine_circuit_and_radiation_as_independent_union": false,
+    "joint_model": "radiation toggles the stored state after a possibly non-ideal write; the read decision is conditioned on that state",
+    "absolute_target_prediction": false
+  }
+}

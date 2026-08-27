@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "scope": "generic_32nm_6T_SRAM_access_engineering_monte_carlo",
+  "model": "../../models/PTM_bulk/32nm_LP.pm",
+  "model_status": "predictive_technology_model_not_foundry_PDK",
+  "cell": {
+    "pull_down_width_nm": 120.0,
+    "pull_up_width_nm": 90.0,
+    "access_width_nm": 100.0,
+    "external_node_capacitance_ff": 0.35
+  },
+  "periphery": {
+    "rows_per_local_bitline": 128,
+    "column_mux_ratio": 4,
+    "local_bitline_capacitance_ff": 20.0,
+    "global_bitline_capacitance_ff": 5.0,
+    "precharge_pmos_width_nm": 300.0,
+    "equalizer_nmos_width_nm": 160.0,
+    "mux_nmos_width_nm": 240.0,
+    "mux_pmos_width_nm": 480.0,
+    "sense_nmos_width_nm": 240.0,
+    "sense_pmos_width_nm": 480.0,
+    "sense_tail_nmos_width_nm": 480.0,
+    "sense_supply_pmos_width_nm": 960.0,
+    "status": "pre_layout_proxy_values_to_be_replaced_by_PEX"
+  },
+  "timing": {
+    "cycle_time_ns": 2.0,
+    "sense_enable_low_ns": 0.78,
+    "sense_enable_high_ns": 0.80,
+    "pre_sense_sample_ns": 0.77,
+    "sense_decision_ns": 1.15
+  },
+  "statistical_assumptions": {
+    "distribution": "independent_zero_mean_gaussian_with_3sigma_truncation",
+    "cell_nmos_sigma_vth_v": 0.012275,
+    "cell_pmos_sigma_abs_vth_v": 0.018898,
+    "sense_nmos_sigma_vth_v": 0.00868,
+    "sense_pmos_sigma_abs_vth_v": 0.00818,
+    "periphery_nmos_sigma_vth_v": 0.010,
+    "periphery_pmos_sigma_abs_vth_v": 0.010,
+    "device_width_relative_sigma": 0.03,
+    "node_capacitance_relative_sigma": 0.10,
+    "bitline_capacitance_relative_sigma": 0.10,
+    "truncation_sigma": 3.0,
+    "status": "engineering_priors_not_foundry_statistics"
+  },
+  "conditional_pvt_corners": {
+    "low_vdd_cold": {"vdd_v": 0.81, "temperature_c": -40.0},
+    "low_vdd_hot": {"vdd_v": 0.81, "temperature_c": 85.0},
+    "nominal": {"vdd_v": 0.90, "temperature_c": 27.0},
+    "high_vdd_cold": {"vdd_v": 0.99, "temperature_c": -40.0},
+    "high_vdd_hot": {"vdd_v": 0.99, "temperature_c": 85.0}
+  },
+  "tid_corners_at_14p32_krad_si": {
+    "central": {"nmos_delta_vth_v": 0.0, "pmos_signed_delta_vth_v": 0.0, "mobility_scale": 1.0},
+    "conservative": {"nmos_delta_vth_v": -0.001, "pmos_signed_delta_vth_v": -0.001, "mobility_scale": 0.99},
+    "stress_not_a_fit": {"nmos_delta_vth_v": -0.003, "pmos_signed_delta_vth_v": -0.003, "mobility_scale": 0.98}
+  },
+  "default_samples_per_condition": 128,
+  "random_seed": 32082026,
+  "confidence_interval": "two_sided_95pct_Wilson_binomial",
+  "probability_semantics": "population fraction under declared engineering mismatch priors, conditional on each deterministic PVT/TID corner; not per-access temporal noise BER",
+  "integration_policy": "point estimates may enter the joint state model only as engineering scenarios; confidence limits are reported as detection resolution and are not target confidence bounds"
+}

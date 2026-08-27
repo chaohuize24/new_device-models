@@ -1,0 +1,9 @@
+energy_mev,sigma_cm2_per_bit,dataset,reference,source_figure,energy_digitization_uncertainty_mev,log10_sigma_digitization_uncertainty_dex,status
+30,1.10e-14,ref_9,"R. Harboe-Sorensen, E. J. Daly, L. Adams, IEEE TNS 40(6), 1498-1504 (1993)","Poivey et al. 2004 Fig. 8",2,0.12,digitized_approximate
+50,8.70e-14,ref_9,"R. Harboe-Sorensen, E. J. Daly, L. Adams, IEEE TNS 40(6), 1498-1504 (1993)","Poivey et al. 2004 Fig. 8",2,0.12,digitized_approximate
+100,1.00e-13,ref_9,"R. Harboe-Sorensen, E. J. Daly, L. Adams, IEEE TNS 40(6), 1498-1504 (1993)","Poivey et al. 2004 Fig. 8",2,0.12,digitized_approximate
+200,1.00e-13,ref_9,"R. Harboe-Sorensen, E. J. Daly, L. Adams, IEEE TNS 40(6), 1498-1504 (1993)","Poivey et al. 2004 Fig. 8",2,0.12,digitized_approximate
+30,6.20e-14,ref_11,"S. Duzellier, D. Falguere, IEEE Radiation Effects Data Workshop, 36-42 (1993)","Poivey et al. 2004 Fig. 8",2,0.12,digitized_approximate
+50,8.00e-14,ref_11,"S. Duzellier, D. Falguere, IEEE Radiation Effects Data Workshop, 36-42 (1993)","Poivey et al. 2004 Fig. 8",2,0.12,digitized_approximate
+100,9.50e-14,ref_11,"S. Duzellier, D. Falguere, IEEE Radiation Effects Data Workshop, 36-42 (1993)","Poivey et al. 2004 Fig. 8",2,0.12,digitized_approximate
+200,1.15e-13,ref_11,"S. Duzellier, D. Falguere, IEEE Radiation Effects Data Workshop, 36-42 (1993)","Poivey et al. 2004 Fig. 8",2,0.12,digitized_approximate

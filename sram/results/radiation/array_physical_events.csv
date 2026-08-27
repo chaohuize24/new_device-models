@@ -1,0 +1,7 @@
+radiation_scenario,array_bits,expected_physical_toggle_arrivals_per_day,interpretation
+partial_low,262144,0.0012996535123099028,physical arrivals before write/scrub/ECC
+partial_low,1048576,0.005198614049239611,physical arrivals before write/scrub/ECC
+engineering_nominal,262144,0.003890564042111713,physical arrivals before write/scrub/ECC
+engineering_nominal,1048576,0.015562256168446852,physical arrivals before write/scrub/ECC
+engineering_high,262144,0.02047382321466697,physical arrivals before write/scrub/ECC
+engineering_high,1048576,0.08189529285866788,physical arrivals before write/scrub/ECC

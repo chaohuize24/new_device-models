@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "read_window_ns": 0.72,
+  "proton_deposition_proxy": "mram\\configs\\proton_deposition_proxy.json",
+  "spectrum": "../environment/target_orbit/average_LET_proton_and_ion_spectra.txt",
+  "transient_read_proton_lower_bound": {
+    "high": 3.951988878142266e-18,
+    "low": 8.194720404726873e-20,
+    "nominal": 2.6504090600911855e-19
+  },
+  "transient_read_proton_nominal": {
+    "high": 1.1986591912882278e-17,
+    "low": 1.4453191779753798e-19,
+    "nominal": 4.745346191445597e-19
+  },
+  "claim_boundary": "CMOS read periphery only; proton LET proxy + pre-layout RPP; not MTJ storage flip; do not add to HI read probability without union model",
+  "rates": [
+    {
+      "level": "high",
+      "proton_event_rate_per_active_read_bit_s": 1.664804432344761e-08,
+      "proton_event_rate_ci95_low": 5.488873441864258e-09,
+      "proton_event_rate_ci95_high": 2.4186292176190204e-08,
+      "proton_read_window_s": 7.2e-10,
+      "proton_read_error_probability_lower_bound": 3.951988878142266e-18,
+      "proton_read_error_probability_nominal": 1.1986591912882278e-17,
+      "proton_read_error_probability_ci95_high": 1.7414130366856946e-17,
+      "sample_median_rate_per_active_read_bit_s": 1.664804432344761e-08,
+      "sample_p05_rate_per_active_read_bit_s": 5.488873441864258e-09,
+      "sample_p95_rate_per_active_read_bit_s": 2.4186292176190204e-08,
+      "spectrum_source": "C:\\Users\\思源\\OneDrive\\Desktop\\太空计算课题组\\device-models-main\\device-models-main\\environment\\target_orbit\\average_LET_proton_and_ion_spectra.txt#spacecraft-shielded-proton-spectrum",
+      "spectrum_normalization": "mission-average omnidirectional flux using 12.5664 sr",
+      "model": "step_response_above_threshold_energy"
+    },
+    {
+      "level": "low",
+      "proton_event_rate_per_active_read_bit_s": 2.0073877471880274e-10,
+      "proton_event_rate_ci95_low": 1.1381556117676213e-10,
+      "proton_event_rate_ci95_high": 2.2205120148307507e-10,
+      "proton_read_window_s": 7.2e-10,
+      "proton_read_error_probability_lower_bound": 8.194720404726873e-20,
+      "proton_read_error_probability_nominal": 1.4453191779753798e-19,
+      "proton_read_error_probability_ci95_high": 1.5987686506781404e-19,
+      "sample_median_rate_per_active_read_bit_s": 2.0073877471880274e-10,
+      "sample_p05_rate_per_active_read_bit_s": 1.1381556117676213e-10,
+      "sample_p95_rate_per_active_read_bit_s": 2.2205120148307507e-10,
+      "spectrum_source": "C:\\Users\\思源\\OneDrive\\Desktop\\太空计算课题组\\device-models-main\\device-models-main\\environment\\target_orbit\\average_LET_proton_and_ion_spectra.txt#spacecraft-shielded-proton-spectrum",
+      "spectrum_normalization": "mission-average omnidirectional flux using 12.5664 sr",
+      "model": "step_response_above_threshold_energy"
+    },
+    {
+      "level": "nominal",
+      "proton_event_rate_per_active_read_bit_s": 6.590758599229995e-10,
+      "proton_event_rate_ci95_low": 3.681123694571091e-10,
+      "proton_event_rate_ci95_high": 2.4419843804388958e-09,
+      "proton_read_window_s": 7.2e-10,
+      "proton_read_error_probability_lower_bound": 2.6504090600911855e-19,
+      "proton_read_error_probability_nominal": 4.745346191445597e-19,
+      "proton_read_error_probability_ci95_high": 1.7582287539160048e-18,
+      "sample_median_rate_per_active_read_bit_s": 6.590758599229995e-10,
+      "sample_p05_rate_per_active_read_bit_s": 3.681123694571091e-10,
+      "sample_p95_rate_per_active_read_bit_s": 2.4419843804388958e-09,
+      "spectrum_source": "C:\\Users\\思源\\OneDrive\\Desktop\\太空计算课题组\\device-models-main\\device-models-main\\environment\\target_orbit\\average_LET_proton_and_ion_spectra.txt#spacecraft-shielded-proton-spectrum",
+      "spectrum_normalization": "mission-average omnidirectional flux using 12.5664 sr",
+      "model": "step_response_above_threshold_energy"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "claim_scope": "generic_32nm_6T_SRAM_pre_layout_architecture_latency_energy_area_LUT",
+  "ngspice_trials": 720,
+  "unique_electrical_paths": 180,
+  "architecture_rows": 3240,
+  "search_eligible_rows": 2160,
+  "all_accesses_functional": true,
+  "ranges": {
+    "read_latency_s": [
+      1.79869e-10,
+      1.14539e-09
+    ],
+    "write_latency_s": [
+      2.58175e-11,
+      1.05157e-10
+    ],
+    "read_energy_per_word_j": [
+      5.111632e-13,
+      1.07086464e-11
+    ],
+    "write_energy_per_word_j": [
+      5.488328e-15,
+      3.3901567999999997e-13
+    ],
+    "area_mm2_proxy": [
+      0.00490176,
+      0.6002227199999999
+    ],
+    "timing_proxy_max_frequency_hz": [
+      477238127.5084829,
+      885058356.3227241
+    ]
+  },
+  "validity": {
+    "latency_energy": "PTM32 LP + declared pre-layout parasitic scaling; no foundry PDK/PEX/decoder/global-wire extraction",
+    "area": "relative architecture-ranking proxy; replace with layout or CACTI-calibrated macro area",
+    "tid": "14.32 krad(Si) central/conservative engineering assumptions plus stress_not_a_fit; not measured 32 nm macro degradation",
+    "absolute_target_macro_valid": false,
+    "mbu_included": false
+  },
+  "source_config": "sram/configs/ptm32_architecture_lut.json",
+  "model": "models/PTM_bulk/32nm_LP.pm"
+}

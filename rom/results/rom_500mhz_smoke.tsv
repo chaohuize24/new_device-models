@@ -1,0 +1,2 @@
+period_ns	frequency_mhz	cycles	vdd_v	temperature_c	n_present	parasitic_scale	dvth_sa_mv	tid_corner	all_cycles_ok	out0_max_v	out1_min_v	precharge_min_v	precharge_min_ratio	d0_develop_margin_min_mv	d1_develop_margin_min_mv
+2.0	500.0	3	1.0	27.0	128.0	1.0	0.0	central	1.0	1.42786e-06	1.0	0.997839	0.997839	85.07900000000002	117.425

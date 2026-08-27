@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "scope": "SOT-MRAM read periphery on PTM32; same RPP envelope as ROM until layout calibration",
+  "levels": {
+    "low": {
+      "vth_relative_sigma": 0.03,
+      "mobility_relative_sigma": 0.03,
+      "capacitance_relative_sigma": 0.02,
+      "sense_offset_sigma_mv": 6.0,
+      "dynamic_noise_sigma_mv": 1.0,
+      "collection_efficiency_median": 0.25,
+      "collection_efficiency_cv": 0.30,
+      "sensitive_depth_um": 0.10,
+      "gbl_sensitive_area_um2": 0.02,
+      "sa_sensitive_area_um2": 0.02,
+      "tid_global_dvth_n_mv_at_14p32krad": 0.0,
+      "tid_global_dvth_p_mv_at_14p32krad": 0.0,
+      "tid_mobility_scale_at_14p32krad": 1.0,
+      "tid_off_current_scale_at_14p32krad": 1.001938786
+    },
+    "nominal": {
+      "vth_relative_sigma": 0.05,
+      "mobility_relative_sigma": 0.05,
+      "capacitance_relative_sigma": 0.05,
+      "sense_offset_sigma_mv": 10.0,
+      "dynamic_noise_sigma_mv": 2.0,
+      "collection_efficiency_median": 0.50,
+      "collection_efficiency_cv": 0.40,
+      "sensitive_depth_um": 0.20,
+      "gbl_sensitive_area_um2": 0.04,
+      "sa_sensitive_area_um2": 0.04,
+      "tid_global_dvth_n_mv_at_14p32krad": -1.0,
+      "tid_global_dvth_p_mv_at_14p32krad": -1.0,
+      "tid_mobility_scale_at_14p32krad": 0.99,
+      "tid_off_current_scale_at_14p32krad": 2.0
+    },
+    "high": {
+      "vth_relative_sigma": 0.10,
+      "mobility_relative_sigma": 0.10,
+      "capacitance_relative_sigma": 0.10,
+      "sense_offset_sigma_mv": 20.0,
+      "dynamic_noise_sigma_mv": 5.0,
+      "collection_efficiency_median": 1.00,
+      "collection_efficiency_cv": 0.50,
+      "sensitive_depth_um": 0.50,
+      "gbl_sensitive_area_um2": 0.10,
+      "sa_sensitive_area_um2": 0.10,
+      "tid_global_dvth_n_mv_at_14p32krad": -3.0,
+      "tid_global_dvth_p_mv_at_14p32krad": -3.0,
+      "tid_mobility_scale_at_14p32krad": 0.98,
+      "tid_off_current_scale_at_14p32krad": 10.0
+    }
+  },
+  "notes": {
+    "device": "SOT-MRAM 1T1MTJ read column; MTJ is resistor-capacitor proxy",
+    "areas_and_collection": "layout/TCAD-free; dominates absolute cross-section uncertainty"
+  }
+}

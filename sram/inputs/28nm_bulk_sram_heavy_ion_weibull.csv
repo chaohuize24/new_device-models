@@ -1,0 +1,4 @@
+proxy_id,memory_type,technology,threshold_let_mev_cm2_mg,sigma_sat_cm2_per_bit,width_mev_cm2_mg,shape,source_doi,source_role,limitation
+aps28_global_well_sram,standalone_6T_SRAM,28nm_HKMG_bulk,0.15,2.1e-9,8.0,1.0,10.7498/aps.72.20221742,measured_heavy_ion_proxy,128kbit_0.9V_global_well_contacts
+kintex7_blockram,FPGA_BlockRAM,TSMC_28nm_HKMG_bulk,0.8,7.94e-9,5.0,0.7,10.1109/REDW.2014.7004595,measured_heavy_ion_proxy,substrate_thinned_to_about_75um_and_preliminary_blockram_analysis
+kintex7_configuration_sram,FPGA_configuration_SRAM,TSMC_28nm_HKMG_bulk,1.9,1.43e-8,125.3,0.78,10.1109/REDW.2014.7004595,measured_heavy_ion_proxy,substrate_thinned_to_about_75um_and_FPGA_configuration_cell
