@@ -67,6 +67,10 @@ def common_replacements(config: dict, model: Path, mtj: dict, pvt_name: str, tid
     tid = config["tid_corners_at_14p32_krad_si"][tid_name]
     strike = config["strike"]
     timing = config["timing"]
+    tw_start = float(timing["write_pulse_start_ns"])
+    tw_end = float(timing["write_pulse_end_ns"])
+    tw_rise0 = max(0.0, tw_start - 0.02)
+    tw_fall = tw_end + 0.02
     return {
         "__MODEL_PATH__": str(model.resolve()),
         "__VDD__": fmt(pvt["vdd_v"]),
@@ -86,6 +90,10 @@ def common_replacements(config: dict, model: Path, mtj: dict, pvt_name: str, tid
         "__TAUF_PS__": fmt(strike["fall_time_ps"]),
         "__TFINAL_NS__": fmt(timing["final_decision_ns"]),
         "__TSTOP_NS__": fmt(timing["transient_end_ns"]),
+        "__TW_RISE0_NS__": fmt(tw_rise0),
+        "__TW_START_NS__": fmt(tw_start),
+        "__TW_END_NS__": fmt(tw_end),
+        "__TW_FALL_NS__": fmt(tw_fall),
     }
 
 
@@ -161,11 +169,11 @@ def simulate(ngspice: str, deck: str, work: Path, tag: str) -> dict[str, float]:
 
 
 def write_failed(values: dict[str, float], desired_bit: int, vdd: float) -> bool:
+    """Electrical write failure on BL (MTJ node is resistively tied to 0 in this proxy)."""
     v_bl = values.get("vbl_final", values.get("v_bl_final", 0.0))
-    v_mtj = values.get("vmtj_final", values.get("v_mtj_final", 0.0))
     if desired_bit == 0:
-        return v_bl > 0.05 or v_mtj > 0.5 * vdd
-    return v_bl < 0.95 * vdd or v_mtj < 0.5 * vdd
+        return v_bl > 0.05 * vdd
+    return v_bl < 0.95 * vdd
 
 
 def hold_failed(values: dict[str, float], stored_bit: int, vdd: float) -> bool:
@@ -290,7 +298,20 @@ def main() -> int:
     if args.quick:
         pvt_names = ["nominal"]
         tid_names = ["central"]
-        strike_times = [0.16, 0.80, 1.60, 2.14]
+        # Keep strikes inside the configured write window (works for 1 ns and 2 ns tracks).
+        mid = 0.5 * (
+            float(config["timing"]["write_pulse_start_ns"])
+            + float(config["timing"]["write_pulse_end_ns"])
+        )
+        near_end = float(config["timing"]["write_pulse_end_ns"]) - 0.03
+        strike_times = sorted(
+            {
+                float(config["timing"]["write_pulse_start_ns"]) + 0.03,
+                mid,
+                near_end,
+                float(config["timing"]["strike_times_ns"][0]),
+            }
+        )
         write_nodes = ["bl", "mtj", "sot_top"]
 
     write_tasks = [
@@ -338,17 +359,31 @@ def main() -> int:
     write_rows.sort(key=lambda r: (r["pvt_corner"], r["tid_corner"], r["desired_bit"], r["node"], r["strike_time_ns"]))
     hold_rows.sort(key=lambda r: (r["pvt_corner"], r["tid_corner"], r["stored_bit"], r["node"]))
     bracketed_write = [float(r["qcrit_fc"]) for r in write_rows if r["status"] == "bracketed"]
+    censored_write = [float(r["qcrit_fc"]) for r in write_rows if r["status"] == "not_bracketed"]
     bracketed_hold = [float(r["qcrit_fc"]) for r in hold_rows if r["status"] == "bracketed"]
-    if not bracketed_write or not bracketed_hold:
-        raise RuntimeError("screen did not produce bracketed write and hold Qcrit values")
+    if not bracketed_hold:
+        raise RuntimeError("screen did not produce bracketed hold Qcrit values")
+    if bracketed_write:
+        min_write = min(bracketed_write)
+        med_write = statistics.median(bracketed_write)
+        write_bound = "bracketed"
+    elif censored_write:
+        # Write path never flipped within qcrit_max — report lower bound on robustness.
+        min_write = min(censored_write)
+        med_write = statistics.median(censored_write)
+        write_bound = "right_censored_gt_qcrit_max"
+    else:
+        raise RuntimeError("screen did not produce bracketed or right-censored write Qcrit values")
 
-    worst_ratio = min(bracketed_write) / min(bracketed_hold)
+    worst_ratio = min_write / min(bracketed_hold)
     overall = {
         "method": "SOT-MRAM 1T1MTJ + SOT-channel write-window Qcrit screen",
+        "workpoint": config.get("workpoint", "general_sot_7_1"),
         "write_cases": len(write_rows),
         "hold_cases": len(hold_rows),
-        "minimum_write_qcrit_fc": min(bracketed_write),
-        "median_write_qcrit_fc": statistics.median(bracketed_write),
+        "minimum_write_qcrit_fc": min_write,
+        "median_write_qcrit_fc": med_write,
+        "write_qcrit_bound": write_bound,
         "minimum_hold_qcrit_fc": min(bracketed_hold),
         "median_hold_qcrit_fc": statistics.median(bracketed_hold),
         "min_write_over_min_hold_qcrit": worst_ratio,
@@ -356,32 +391,46 @@ def main() -> int:
         "baseline_failed_write_cases": sum(r["status"] == "baseline_failed" for r in write_rows),
         "claim_boundary": config["claim_boundary"],
         "literature_write_current_a": config["cell"]["i_write_a"],
+        "literature_i_c_sot_a": config["cell"].get("i_c_sot_a"),
+        "write_pulse_width_ns": config["cell"].get(
+            "write_pulse_width_ns",
+            float(config["timing"]["write_pulse_end_ns"]) - float(config["timing"]["write_pulse_start_ns"]),
+        ),
     }
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
     write_csv(args.output_dir / "write_qcrit_cases.csv", write_rows)
     write_csv(args.output_dir / "hold_qcrit_cases.csv", hold_rows)
+    rel_out = args.output_dir
+    try:
+        rel_out = args.output_dir.resolve().relative_to(REPO)
+    except ValueError:
+        pass
     payload = {
-        "schema_version": 1,
+        "schema_version": 2,
+        "workpoint": config.get("workpoint", "general_sot_7_1"),
         "config": config,
         "resolved_model": str(model.relative_to(REPO)) if model.is_relative_to(REPO) else str(model),
         "summary": overall,
         "files": {
-            "write_cases": "mram/results/write_strike_screen/write_qcrit_cases.csv",
-            "hold_cases": "mram/results/write_strike_screen/hold_qcrit_cases.csv",
+            "write_cases": str(Path(rel_out) / "write_qcrit_cases.csv").replace("\\", "/"),
+            "hold_cases": str(Path(rel_out) / "hold_qcrit_cases.csv").replace("\\", "/"),
         },
     }
     (args.output_dir / "summary.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    pulse_ns = overall["write_pulse_width_ns"]
     report = f"""# SOT-MRAM dynamic write strike screening
 
 Selected-path electrical vulnerability screen for the SOT write window (not absolute dynamic write BER).
 
+- Workpoint: `{overall['workpoint']}`
 - Write Qcrit cases: {len(write_rows)}
 - Hold Qcrit cases: {len(hold_rows)}
-- Minimum write Qcrit: {overall['minimum_write_qcrit_fc']:.6g} fC
+- Minimum write Qcrit: {overall['minimum_write_qcrit_fc']:.6g} fC ({overall.get('write_qcrit_bound', 'bracketed')})
 - Minimum hold Qcrit: {overall['minimum_hold_qcrit_fc']:.6g} fC
 - min(write)/min(hold): {worst_ratio:.6g}
-- Write pulse anchor: {config['cell']['i_write_a']*1e6:.0f} uA @ {config['cell'].get('write_pulse_width_ns', 1.0):g} ns (参数汇总 §7.1)
+- Write pulse anchor: {config['cell']['i_write_a']*1e6:.0f} uA @ {pulse_ns:g} ns
+- I_CSOT anchor: {(config['cell'].get('i_c_sot_a') or 0)*1e6:.0f} uA
 
 Does not include address decoder, control logic, or intrinsic stochastic WER.
 """

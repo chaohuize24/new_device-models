@@ -1,4 +1,5 @@
 * SOT-MRAM dynamic write collected-charge screening deck (1T1MTJ + SOT channel proxy).
+* Write pulse edges are template tokens so §7.1 (1 ns) and fab LED 2024 (2 ns) share one deck.
 
 .include "__MODEL_PATH__"
 
@@ -22,11 +23,11 @@
 VSUPPLY vdd 0 {VDDVAL}
 VWL wl 0 0
 
-* SOT write pulse: 1 ns nominal window (参数汇总 §7.1 T_switch=1ns).
-VBLD bld 0 PWL(0 0 0.15n 0 0.17n __BLD_V__ 1.17n __BLD_V__ 1.19n 0 2.0n 0)
-VBLDB bldb 0 PWL(0 0 0.15n 0 0.17n __BLDB_V__ 1.17n __BLDB_V__ 1.19n 0 2.0n 0)
+* SOT write pulse window: [__TW_START_NS__ , __TW_END_NS__] ns
+VBLD bld 0 PWL(0 0 __TW_RISE0_NS__n 0 __TW_START_NS__n __BLD_V__ __TW_END_NS__n __BLD_V__ __TW_FALL_NS__n 0 __TSTOP_NS__n 0)
+VBLDB bldb 0 PWL(0 0 __TW_RISE0_NS__n 0 __TW_START_NS__n __BLDB_V__ __TW_END_NS__n __BLDB_V__ __TW_FALL_NS__n 0 __TSTOP_NS__n 0)
 
-VSOT sot_drv 0 PWL(0 0 0.15n 0 0.17n {IWRITE} 1.17n {IWRITE} 1.19n 0 2.0n 0)
+VSOT sot_drv 0 PWL(0 0 __TW_RISE0_NS__n 0 __TW_START_NS__n {IWRITE} __TW_END_NS__n {IWRITE} __TW_FALL_NS__n 0 __TSTOP_NS__n 0)
 RSOT sot_drv sot_top {R_SOT}
 RSOTR sot_top 0 1
 

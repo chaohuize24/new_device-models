@@ -5,6 +5,15 @@ Machine-readable mirror: `sot_mtj_parameters.json`.
 
 This release uses a **resistor-capacitor proxy** for the MTJ in ngspice read-path simulations. It is not a micromagnetic or STT/SOT switching compact model.
 
+## Dual track (2026-08-28)
+
+| Track | ID | Role | Key numbers |
+|---|---|---|---|
+| **Circuit compact (default)** | `general_sot_7_1` | HI/proton Qcrit + delivery JSON | TMR 100%, 10/20 kΩ, I_W=100 μA, I_C=80 μA, 1 ns |
+| **Fab anchor** | `fab_led_2024` | Device-physics dual track (read + write screen) | TMR 119%, 10.89/23.85 kΩ, I_C=680/880 μA@2 ns, I_W=1020 μA |
+
+Do **not** mix write currents across tracks. Fab paper uses external assist field (±20 mT); ngspice proxy does not model B_ext.
+
 ## Baseline workpoint (§7.1 通用 SOT-MRAM 模型)
 
 | Parameter | Value | Summary reference |
@@ -26,6 +35,22 @@ This release uses a **resistor-capacitor proxy** for the MTJ in ngspice read-pat
 
 Hierarchical read netlist uses **array_tuned_7_1**: same R/TMR, WN=1200 nm, extended SA timing for 2048×128 BL loading.
 
+## Fab workpoint (`fab_led_2024`)
+
+Source: Yang et al., *IEEE Electron Device Letters* 2024 ([doi:10.1109/LED.2024.3454609](https://doi.org/10.1109/LED.2024.3454609)), arXiv:2404.09125.
+
+| Parameter | Value |
+|---|---:|
+| TMR | 119% |
+| R_P | 10.89 kΩ |
+| R_AP | 23.849 kΩ (= R_P×(1+TMR)) |
+| R_SOT | 776 Ω |
+| I_c P→AP / AP→P @ 2 ns | 680 / 880 μA |
+| I_write (screen) | 1020 μA (=1.5×680) |
+| Write pulse | 2 ns |
+
+Configs: `mram/configs/sot_write_strike_screen_fab_led_2024.json`, read variants `fab_led_2024` / `fab_led_2024_array_tuned`.
+
 ## Optimized variant (§7.2 Nat. Commun.)
 
 | Parameter | Value |
@@ -41,24 +66,10 @@ Hierarchical read netlist uses **array_tuned_7_1**: same R/TMR, WN=1200 nm, exte
 
 See `mram/configs/read_path_variants.json` for functional screens.
 
-## Radiation modeling scope (from summary §1, §5)
+## Radiation modeling scope
 
-- **Modeled in v2 pipeline:** CMOS read periphery SEE (Qcrit + RPP + SPENVIS); SOT write-window Qcrit screen.
-- **Not modeled:** MTJ storage flip σ; SEFI/SEL; TID TMR(I) analytic curves (§5.1) — TID corners remain CMOS electrical only.
+- **Modeled:** CMOS read periphery SEE (Qcrit + RPP + SPENVIS) on **§7.1** netlist; SOT write-window Qcrit screen on **both** tracks.
+- **Not modeled:** MTJ storage flip σ; SEFI/SEL; fab B_ext; absolute write BER.
 - **Reference SEE default:** σ_SEU = 1×10⁻¹² cm²/bit (summary §5.2, not converted to absolute rate in v1).
-
-## Supplementary fab anchor (not default baseline)
-
-| Parameter | Value | Source |
-|---|---:|---|
-| TMR | 119% | arXiv:2404.09125 (300 mm demo) |
-| R_P | 10.89 kΩ | Same |
-| I_c @ 2 ns | 680 / 880 μA | Same |
-
-Kept in `supplementary_fab_anchors`; superseded for default workpoint by summary §7.1.
-
-## Legacy note
-
-Previous **5 kΩ / 10.95 kΩ** scaled proxy (`legacy_scaled_proxy`) matches the **existing Qcrit TSV** until `characterize` is re-run at §7.1 parameters.
 
 Replace R/C proxy with foundry PDK + PEX + micromagnetic MTJ before silicon-level absolute claims.

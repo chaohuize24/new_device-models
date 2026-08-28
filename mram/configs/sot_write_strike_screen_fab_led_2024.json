@@ -1,30 +1,32 @@
 {
   "schema_version": 2,
-  "scope": "SOT-MRAM 1T1MTJ + SOT-channel write-window Qcrit screen (参数汇总 §7.1)",
-  "workpoint": "general_sot_7_1",
-  "parameter_source": "SOT-MRAM辐照错误建模参数汇总.md",
+  "scope": "SOT-MRAM 1T1MTJ + SOT-channel write-window Qcrit screen (300 mm fab LED 2024 / arXiv:2404.09125)",
+  "workpoint": "fab_led_2024",
+  "parameter_source": "Yang et al. IEEE EDL 2024 / arXiv:2404.09125",
   "model": "../../models/PTM_bulk/32nm_LP.pm",
   "mtj_parameters": "../../models/MTJ/sot_mtj_parameters.json",
   "cell": {
-    "r_p_ohm": 10000.0,
-    "r_ap_ohm": 20000.0,
+    "r_p_ohm": 10890.0,
+    "r_ap_ohm": 23849.1,
     "c_mtj_fF": 5.0,
     "r_sot_ohm": 776.0,
     "access_width_nm": 960.0,
-    "write_driver_nmos_width_nm": 400.0,
-    "write_driver_pmos_width_nm": 800.0,
+    "write_driver_nmos_width_nm": 1200.0,
+    "write_driver_pmos_width_nm": 2400.0,
     "hold_screen_r_mtj_ohm": 50000.0,
-    "i_write_a": 0.0001,
-    "i_c_sot_a": 0.00008,
+    "i_write_a": 0.00102,
+    "i_c_sot_a": 0.00068,
+    "i_c_sot_ap_to_p_a": 0.00088,
     "i_read_a": 0.00003,
-    "write_pulse_width_ns": 1.0
+    "write_pulse_width_ns": 2.0,
+    "note": "I_write=1.5×I_c(P→AP)=1020 μA; drivers widened vs §7.1 to sink ~1 mA SOT channel current"
   },
   "timing": {
     "write_pulse_start_ns": 0.17,
-    "write_pulse_end_ns": 1.17,
-    "final_decision_ns": 1.10,
-    "transient_end_ns": 2.00,
-    "strike_times_ns": [0.10, 0.16, 0.40, 0.80, 1.00, 1.14]
+    "write_pulse_end_ns": 2.17,
+    "final_decision_ns": 2.10,
+    "transient_end_ns": 3.00,
+    "strike_times_ns": [0.20, 0.50, 1.00, 1.50, 1.90, 2.14]
   },
   "strike": {
     "pulse": "double_exponential_normalized_to_collected_charge",
@@ -33,12 +35,12 @@
     "write_nodes": ["bl", "blb", "mtj", "sot_top"],
     "hold_nodes": ["bl", "mtj"],
     "qcrit_initial_high_fc": 0.4,
-    "qcrit_max_fc": 128.0,
+    "qcrit_max_fc": 512.0,
     "qcrit_tolerance_fc": 0.01
   },
   "screen_strategy": {
     "full_phase_condition": {"pvt_corner": "nominal", "tid_corner": "central"},
-    "all_corner_strike_times_ns": [0.80, 1.00, 1.14],
+    "all_corner_strike_times_ns": [1.00, 1.50, 2.14],
     "all_corner_write_nodes": ["bl", "mtj", "sot_top"],
     "all_corner_desired_bits": [0]
   },
@@ -53,9 +55,9 @@
     "stress_not_a_fit": {"nmos_delta_vth_v": -0.003, "pmos_signed_delta_vth_v": -0.003, "mobility_scale": 0.98}
   },
   "importance_screen": {
-    "reference_hi_read_rate_per_bit_s": 1.4995148625046548e-15,
-    "write_window_s": 1.0e-9,
-    "criterion": "compare write-window Qcrit ratio against hold Qcrit; I_W=100μA, T_switch=1ns per summary §7.1"
+    "reference_hi_read_rate_per_bit_s": 1.9675676511182334e-15,
+    "write_window_s": 2.0e-9,
+    "criterion": "compare write-window Qcrit ratio against hold; fab Ic=680/880 μA @ 2 ns (LED 2024)"
   },
-  "claim_boundary": "Qcrit ratios are electrical vulnerability screens for the SOT write window, not dynamic proton/HI write cross sections or absolute write BER"
+  "claim_boundary": "Qcrit ratios are electrical vulnerability screens for the fab-anchored SOT write window, not dynamic particle cross sections or absolute write BER; B_ext used in the source paper is not modeled here"
 }

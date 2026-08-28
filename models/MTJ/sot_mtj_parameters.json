@@ -52,6 +52,26 @@
       "t_FL_nm": 1.8,
       "P_read_order": 1e-6,
       "P_write_order": 1e-8
+    },
+    "fab_led_2024": {
+      "label": "300 mm 流片锚点（Yang et al. IEEE EDL 2024 / arXiv:2404.09125）",
+      "role": "device_physics_anchor_not_default_qcrit_baseline",
+      "temperature_K": 300,
+      "VDD_V": 1.0,
+      "TMR_percent": 119.0,
+      "R_P_ohm": 10890.0,
+      "R_AP_ohm": 23849.1,
+      "R_REF_ohm": 16110.0,
+      "R_SOT_ohm": 776.0,
+      "I_c_P_to_AP_uA_at_2ns": 680.0,
+      "I_c_AP_to_P_uA_at_2ns": 880.0,
+      "I_write_uA": 1020.0,
+      "I_write_over_Ic_P_to_AP": 1.5,
+      "I_read_uA": 30.0,
+      "write_pulse_width_ns": 2.0,
+      "external_field_note": "source paper uses B_ext=±20 mT assist; not modeled in ngspice proxy",
+      "doi": "10.1109/LED.2024.3454609",
+      "arxiv": "2404.09125"
     }
   },
   "magnetic_stack": {
@@ -92,16 +112,22 @@
   },
   "supplementary_fab_anchors": {
     "arXiv_2404_09125": {
-      "note": "300 mm 流片实测；与汇总通用工作点并存，不作为 v2 默认基线",
+      "note": "Promoted to workpoints.fab_led_2024; kept here for backward lookup",
+      "alias": "fab_led_2024",
       "TMR_percent": 119.0,
       "R_P_ohm": 10890.0,
+      "R_SOT_ohm": 776.0,
       "I_c_P_to_AP_uA_at_2ns": 680.0,
       "I_c_AP_to_P_uA_at_2ns": 880.0
     }
   },
   "notes": {
     "read_model": "linear R/C MTJ + CMOS read column; Qcrit/RPP for SEE on periphery",
-    "write_model": "SOT current pulse + BL drivers; I_W/I_C from summary §7.1",
+    "write_model": "dual-track: §7.1 compact (100 μA/1 ns) vs fab_led_2024 (1020 μA/2 ns)",
+    "dual_track": {
+      "circuit_compact_baseline": "general_sot_7_1 — HI/proton Qcrit characterized",
+      "fab_anchor": "fab_led_2024 — read functional + write Qcrit screen only (not re-characterized for HI rate)"
+    },
     "results_stale_after_rebaseline": false,
     "qcrit_characterized_at": "general_sot_7_1 (2026-08-28, 64 samples/level)"
   },
@@ -115,6 +141,26 @@
       "access_width_nm": 960.0,
       "sa_enable_ns": 1.85,
       "sense_delay_ns": 0.35
+    },
+    "fab_led_2024": {
+      "status": "fab_anchor_sensitivity",
+      "workpoint": "fab_led_2024",
+      "r_p_ohm": 10890.0,
+      "r_ap_ohm": 23849.1,
+      "c_mtj_fF": 5.0,
+      "access_width_nm": 960.0,
+      "sa_enable_ns": 1.85,
+      "sense_delay_ns": 0.35
+    },
+    "fab_led_2024_array_tuned": {
+      "status": "fab_anchor_array_tuned",
+      "workpoint": "fab_led_2024",
+      "r_p_ohm": 10890.0,
+      "r_ap_ohm": 23849.1,
+      "c_mtj_fF": 5.0,
+      "access_width_nm": 1200.0,
+      "sa_enable_ns": 2.05,
+      "sense_delay_ns": 0.40
     },
     "optimized_nature_7_2": {
       "status": "sensitivity_variant",

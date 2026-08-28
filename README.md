@@ -14,10 +14,10 @@
 
 - SRAM：在 400 km、51.6°、5 年、1.0 g/cm² Al 等效屏蔽和 1500 s 已知正确重写间隔下，单 bit 随机读取时刻的状态错误概率中心工程值为 `1.288309e-10`，工程场景范围为 `4.303633e-11–6.779639e-10`。这是跨器件实测代理形成的数量级包络，不是目标芯片置信区间。
 - ROM：当前可复现结果只覆盖重离子造成的读窗口瞬态下界；中心工程场景的单 active bit/次读取概率为 `1.258446e-25`。该值不含动态质子、译码/控制 SET 和 SEFI，不能与 SRAM 的完整状态翻转率直接排序。
-- SOT-MRAM：与 **ROM 同读链方法论**（Qcrit→RPP→LET）；中心工程场景单 active bit/次读取重离子下界为 `1.417e-24`（`interfaces/mram_device_delivery.json`，§7.1 基线，2026-08-28）。另有质子读下界与写路径 Qcrit 筛选；`persistent_state` 为 missing，**不可与 SRAM 驻留 BER 直接排序**。
+- SOT-MRAM：与 **ROM 同读链方法论**（Qcrit→RPP→LET）；中心工程场景单 active bit/次读取重离子下界为 `1.417e-24`（`interfaces/mram_device_delivery.json`，§7.1 基线，2026-08-28）。另有质子读下界；写路径为 **§7.1 / fab_led_2024 双轨** Qcrit 筛选（见 `mram/results/dual_track_fab_vs_7_1.md`）。`persistent_state` 为 missing，**不可与 SRAM 驻留 BER 直接排序**。
 - PTM32/ngspice：用于电路结构、条件功能、Qcrit 和相对架构趋势研究；它不是 28 nm 代工 PDK，也不是版图后宏模型。
 
-三器件通道对照见 [docs/02_统一器件接口.md](docs/02_统一器件接口.md)。
+三器件通道对照见 [docs/02_统一器件接口.md](docs/02_统一器件接口.md)。双轨参数见 [models/MTJ/SOURCE.md](models/MTJ/SOURCE.md)。
 
 ## 目录
 

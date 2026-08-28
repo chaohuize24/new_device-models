@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "parameter_source": "SOT-MRAM辐照错误建模参数汇总.md §7.1 / §7.2",
+  "parameter_source": "SOT-MRAM辐照错误建模参数汇总.md §7.1/§7.2 + Yang IEEE EDL 2024 (fab_led_2024)",
   "variants": {
     "general_sot_7_1": {
       "label": "通用 SOT-MRAM 模型（汇总 §7.1，Qcrit 基线）",
@@ -12,6 +12,30 @@
       "access_width_nm": 960.0,
       "sa_enable_ns": 1.85,
       "sense_delay_ns": 0.35,
+      "read_window_ns": 0.72
+    },
+    "fab_led_2024": {
+      "label": "300 mm 流片锚点（IEEE EDL 2024 / arXiv:2404.09125）",
+      "literature_basis": "TMR=119%, RP=10.89kΩ, RAP=23.85kΩ, RSOT=776Ω, Ic=680/880μA@2ns",
+      "r_p_ohm": 10890.0,
+      "r_ap_ohm": 23849.1,
+      "r_ref_ohm": 16110.0,
+      "c_mtj_fF": 5.0,
+      "access_width_nm": 960.0,
+      "sa_enable_ns": 1.85,
+      "sense_delay_ns": 0.35,
+      "read_window_ns": 0.72
+    },
+    "fab_led_2024_array_tuned": {
+      "label": "流片电阻 + 2048×128 读列加宽/延长 SA",
+      "literature_basis": "fab_led_2024 R/TMR with WN=1200nm, TSAEN=2.05ns for hierarchical BL",
+      "r_p_ohm": 10890.0,
+      "r_ap_ohm": 23849.1,
+      "r_ref_ohm": 16110.0,
+      "c_mtj_fF": 5.0,
+      "access_width_nm": 1200.0,
+      "sa_enable_ns": 2.05,
+      "sense_delay_ns": 0.40,
       "read_window_ns": 0.72
     },
     "optimized_nature_7_2": {

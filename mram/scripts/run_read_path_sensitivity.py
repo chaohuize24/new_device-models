@@ -127,20 +127,23 @@ def main() -> int:
     literature_pass = [
         r["variant_id"]
         for r in rows
-        if r["variant_id"] in ("optimized_nature_7_2", "array_tuned_7_1") and r["functional_pass"]
+        if r["variant_id"]
+        in ("optimized_nature_7_2", "array_tuned_7_1", "fab_led_2024", "fab_led_2024_array_tuned")
+        and r["functional_pass"]
     ]
     summary = {
         "schema_version": 2,
-        "parameter_source": "SOT-MRAM辐照错误建模参数汇总.md",
+        "parameter_source": "SOT-MRAM辐照错误建模参数汇总.md + Yang IEEE EDL 2024",
         "variants_tested": len(rows),
         "functional_pass_count": sum(r["functional_pass"] for r in rows),
         "recommended_variant_for_qcrit": recommended["variant_id"] if recommended else "general_sot_7_1",
         "literature_aligned_functional_variants": literature_pass,
         "v1_baseline": "general_sot_7_1",
+        "fab_anchor": "fab_led_2024",
         "legacy_qcrit_baseline": "legacy_scaled_proxy",
         "claim": (
-            "general_sot_7_1 (summary §7.1) is the new electrical baseline; "
-            "legacy_scaled_proxy matches old Qcrit TSV until re-characterize"
+            "general_sot_7_1 remains the HI/proton Qcrit baseline; "
+            "fab_led_2024 is the 300 mm measured electrical/write dual-track anchor"
         ),
         "rows": rows,
     }

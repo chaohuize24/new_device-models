@@ -49,20 +49,37 @@
       "status": "screening_only",
       "valid_for_target": false,
       "search_ready": false,
-      "normalization_basis": "per SOT write pulse (1 ns electrical window)",
+      "normalization_basis": "per SOT write pulse (track-dependent electrical window)",
       "results": {
-        "minimum_write_qcrit_fc": 0.00625,
-        "minimum_hold_qcrit_fc": 0.00625,
-        "min_write_over_min_hold_qcrit": 1.0,
-        "literature_i_write_a": 0.0001,
-        "literature_i_c_sot_a": 0.00008,
-        "write_pulse_width_ns": 1.0,
-        "parameter_source": "SOT-MRAM irradiation summary section 7.1"
+        "general_sot_7_1": {
+          "minimum_write_qcrit_fc": 0.00625,
+          "minimum_hold_qcrit_fc": 0.00625,
+          "min_write_over_min_hold_qcrit": 1.0,
+          "write_qcrit_bound": "bracketed",
+          "literature_i_write_a": 0.0001,
+          "literature_i_c_sot_a": 0.00008,
+          "write_pulse_width_ns": 1.0,
+          "parameter_source": "summary section 7.1"
+        },
+        "fab_led_2024": {
+          "minimum_write_qcrit_fc": 512.0,
+          "minimum_hold_qcrit_fc": 0.00625,
+          "min_write_over_min_hold_qcrit": 81920.0,
+          "write_qcrit_bound": "right_censored_gt_qcrit_max",
+          "literature_i_write_a": 0.00102,
+          "literature_i_c_sot_a": 0.00068,
+          "literature_i_c_ap_to_p_a": 0.00088,
+          "write_pulse_width_ns": 2.0,
+          "parameter_source": "Yang IEEE EDL 2024 / arXiv:2404.09125"
+        },
+        "default_track": "general_sot_7_1",
+        "comparison_note": "fab write path remains unflipped up to 512 fC (quick screen); ratio is a lower bound on write/hold robustness, not absolute BER"
       },
       "limitations": [
         "selected-path 1T1MTJ + SOT-channel double-exponential Qcrit screen only",
-        "hold comparison uses high-Z MTJ proxy (50 kOhm per summary section 3) and weakened write drivers; not intrinsic WER",
+        "hold comparison uses high-Z MTJ proxy (50 kOhm) and weakened hold drivers; not intrinsic WER",
         "does not convert Qcrit to dynamic particle cross section",
+        "fab track does not model paper B_ext=±20 mT assist field",
         "address decoder, control logic and SEFI absent"
       ]
     },

@@ -2,13 +2,13 @@
 
 Selected-path electrical vulnerability screen for the SOT write window (not absolute dynamic write BER).
 
-- Workpoint: `general_sot_7_1`
-- Write Qcrit cases: 24
+- Workpoint: `fab_led_2024`
+- Write Qcrit cases: 18
 - Hold Qcrit cases: 4
-- Minimum write Qcrit: 0.00625 fC (bracketed)
+- Minimum write Qcrit: 512 fC (right_censored_gt_qcrit_max)
 - Minimum hold Qcrit: 0.00625 fC
-- min(write)/min(hold): 1
-- Write pulse anchor: 100 uA @ 1 ns
-- I_CSOT anchor: 80 uA
+- min(write)/min(hold): 81920
+- Write pulse anchor: 1020 uA @ 2 ns
+- I_CSOT anchor: 680 uA
 
 Does not include address decoder, control logic, or intrinsic stochastic WER.

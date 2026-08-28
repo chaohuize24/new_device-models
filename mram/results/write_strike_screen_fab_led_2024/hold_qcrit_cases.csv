@@ -1,0 +1,5 @@
+pvt_corner,tid_corner,stored_bit,node,strike_source,strike_sink,adverse_polarity,qcrit_fc,status
+nominal,central,0,bl,0,bl,low_node_charge_injection,0.00625,bracketed
+nominal,central,0,mtj,0,mtj,low_node_charge_injection,512.0,not_bracketed
+nominal,central,1,bl,bl,0,high_charge_removal,0.0,baseline_failed
+nominal,central,1,mtj,mtj,0,high_charge_removal,0.0,baseline_failed

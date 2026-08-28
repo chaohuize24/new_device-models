@@ -1,5 +1,7 @@
 variant_id	label	literature_basis	r_p_ohm	r_ap_ohm	c_mtj_fF	access_width_nm	sa_enable_ns	sense_delay_ns	read_window_ns	d0_diff_dev_v	d1_diff_dev_v	min_diff_dev_v	read0_ok	read1_ok	functional_pass
 general_sot_7_1	通用 SOT-MRAM 模型（汇总 §7.1，Qcrit 基线）	TMR=100%, RL=10kΩ, RH=20kΩ, I_write=100μA, I_CSOT=80μA, σ_VOS=6mV, RSD=8%	10000.0	20000.0	5.0	960.0	1.85	0.35	0.72	0.0390063	0.0384084	0.0384084	1	1	1
+fab_led_2024	300 mm 流片锚点（IEEE EDL 2024 / arXiv:2404.09125）	TMR=119%, RP=10.89kΩ, RAP=23.85kΩ, RSOT=776Ω, Ic=680/880μA@2ns	10890.0	23849.1	5.0	960.0	1.85	0.35	0.72	0.0534178	0.0239983	0.0239983	1	1	1
+fab_led_2024_array_tuned	流片电阻 + 2048×128 读列加宽/延长 SA	fab_led_2024 R/TMR with WN=1200nm, TSAEN=2.05ns for hierarchical BL	10890.0	23849.1	5.0	1200.0	2.05	0.4	0.72	0.0618026	0.0300292	0.0300292	1	1	1
 optimized_nature_7_2	Nat. Commun. 优化 SOT-MRAM（汇总 §7.2）	TMR=150%, RL=8kΩ, RH=20kΩ, I_CSOT=45μA, σ_VOS=4mV, RSD=6%, V_PRE=0.25V	8000.0	20000.0	5.0	960.0	1.85	0.35	0.72	0.0257864	0.0516283	0.0257864	1	1	1
 array_tuned_7_1	§7.1 电阻 + 2048×128 读列时序/.access 加宽	general_sot_7_1 with widened WN and extended SA for hierarchical BL loading	10000.0	20000.0	5.0	1200.0	2.05	0.4	0.72	0.0442853	0.0475433	0.0442853	1	1	1
 legacy_scaled_proxy	旧版 arXiv 缩放代理（仅供与历史 Qcrit TSV 对照）	arXiv:2404.09125 scaled 5k/10.95k — superseded by summary §7.1	5000.0	10950.0	5.0	480.0	1.65	0.25	0.72	-0.0341443	0.0903889	-0.0341443	0	1	0
