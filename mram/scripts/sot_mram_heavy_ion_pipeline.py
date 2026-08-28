@@ -576,7 +576,7 @@ def make_parser() -> argparse.ArgumentParser:
     char.add_argument("--array-columns", type=int, default=128)
     char.add_argument("--column-mux-ratio", type=int, default=4)
     char.add_argument("--gbl-times-ns", default="1.10,1.25,1.40,1.55,1.62")
-    char.add_argument("--sa-times-ns", default="1.66,1.70,1.75,1.82,1.88")
+    char.add_argument("--sa-times-ns", default="2.05,2.15,2.25,2.35,2.42")
     char.add_argument("--max-q-fc", type=float, default=200.0)
     char.add_argument("--tolerance-fc", type=float, default=0.5)
     char.add_argument("--output", default="results/mram_joint_qcrit_samples.tsv")

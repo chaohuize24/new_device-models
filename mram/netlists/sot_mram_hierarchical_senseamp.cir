@@ -153,7 +153,7 @@ MOB1N_1 outb1 din1 0 0 nmos W={WN} L={LCH}
 MOB2P_1 data_out1 outb1 vdd vdd pmos W={WP} L={LCH}
 MOB2N_1 data_out1 outb1 0 0 nmos W={WN} L={LCH}
 
-.tran 1p 2.4n
+.tran 1p 2.6n
 
 .measure tran D0_GBL_DEV FIND v(gbl_d0) AT={TDEVELOP}
 .measure tran D0_REF_DEV FIND v(gbl_r0) AT={TDEVELOP}

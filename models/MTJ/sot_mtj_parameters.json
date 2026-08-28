@@ -102,7 +102,8 @@
   "notes": {
     "read_model": "linear R/C MTJ + CMOS read column; Qcrit/RPP for SEE on periphery",
     "write_model": "SOT current pulse + BL drivers; I_W/I_C from summary §7.1",
-    "results_stale_after_rebaseline": "HI/proton Qcrit TSV 基于旧 5k/10.95k 代理；改参后需重跑 characterize"
+    "results_stale_after_rebaseline": false,
+    "qcrit_characterized_at": "general_sot_7_1 (2026-08-28, 64 samples/level)"
   },
   "read_path_tiers": {
     "general_sot_7_1": {

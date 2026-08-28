@@ -27,12 +27,14 @@ def main() -> None:
     args = parser.parse_args()
     py = sys.executable
     pipeline = SCRIPTS / "sot_mram_heavy_ion_pipeline.py"
-    common = [py, str(pipeline)]
+    ngspice_args: list[str] = []
     if args.ngspice:
-        common.extend(["--ngspice", args.ngspice])
+        ngspice_args = ["--ngspice", args.ngspice]
     if not args.skip_characterize:
-        run(common + ["characterize", "--samples", str(args.samples)])
-    run(common + ["cross-section"])
+        run(
+            [py, str(pipeline), "characterize", *ngspice_args, "--samples", str(args.samples)]
+        )
+    run([py, str(pipeline), "cross-section"])
     run([py, str(SCRIPTS / "summarize_read_ber.py")])
     delivery = ROOT / "results" / "final_delivery.json"
     rates = ROOT / "results" / "mram_spenvis_heavy_ion_rate.tsv"

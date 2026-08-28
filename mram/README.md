@@ -20,7 +20,7 @@ MTJ 电学参数见 `../models/MTJ/sot_mtj_parameters.json` 与 `../models/MTJ/S
 
 SOT 写路径按汇总 **§7.1**：100 μA / 1 ns 写脉冲 + Qcrit 筛选（`post_write`，`screening_only`）。
 
-> **注意**：`results/mram_joint_qcrit_samples.tsv` 等仍基于旧 **5 kΩ/10.95 kΩ** 代理生成；改参后需重跑 `characterize` 与 `cross-section`。
+> **Qcrit/HI/质子结果**已与 §7.1 网表同步（2026-08-28 characterize，64 samples/level）。
 
 读路径除 scaled proxy 外，`configs/read_path_variants.json` 记录了文献 R/C 变体；`scripts/run_read_path_sensitivity.py` 验证四类变体在 0.72 ns 读窗口内均可功能读通。
 

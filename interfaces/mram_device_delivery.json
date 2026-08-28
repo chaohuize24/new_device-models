@@ -23,21 +23,24 @@
       "search_ready": false,
       "normalization_basis": "per active output bit per 0.72 ns read window",
       "results": {
-        "heavy_ion_lower_bound_low": 1.190868117931188e-26,
-        "heavy_ion_lower_bound_nominal": 1.0796507010033515e-24,
-        "heavy_ion_lower_bound_high": 3.9054968269253315e-22,
-        "proton_lower_bound_low": 8.194720404726873e-20,
-        "proton_lower_bound_nominal": 2.6504090600911855e-19,
-        "proton_lower_bound_high": 3.951988878142266e-18,
-        "proton_nominal_low": 1.4453191779753798e-19,
-        "proton_nominal_nominal": 4.745346191445597e-19,
-        "proton_nominal_high": 1.1986591912882278e-17
+        "heavy_ion_lower_bound_low": 1.3887236375247624e-26,
+        "heavy_ion_lower_bound_nominal": 1.4166487088051281e-24,
+        "heavy_ion_lower_bound_high": 1.5781947056807269e-19,
+        "proton_lower_bound_low": 9.214107817364733e-20,
+        "proton_lower_bound_nominal": 3.0441114195447827e-19,
+        "proton_lower_bound_high": 2.786625313411727e-20,
+        "proton_nominal_low": 1.3718127191967638e-19,
+        "proton_nominal_nominal": 3.662271703989956e-19,
+        "proton_nominal_high": 1.575551293590442e-19,
+        "qcrit_baseline": "general_sot_7_1 (10k/20k, array-tuned read netlist)",
+        "characterize_samples_per_level": 64,
+        "characterize_date": "2026-08-28"
       },
       "limitations": [
         "CMOS read periphery only; SOT write path and decoder/control SET absent",
         "RPP area, depth and collection efficiency are pre-layout engineering assumptions",
-        "MTJ read chain netlist aligned to 参数汇总 §7.1 (10k/20k); Qcrit TSV still from legacy 5k proxy until re-characterize",
-        "variation envelopes: RSD 6/8/10%, sigma_VOS 4/6/8 mV from summary §3",
+        "MTJ read chain and Qcrit TSV characterized at summary section 7.1 (10k/20k, TSAEN=2.05ns)",
+        "variation envelopes: RSD 6/8/10%, sigma_VOS 4/6/8 mV from summary section 3",
         "proton channel uses silicon LET proxy + same Qcrit samples; do not add to HI probability without union model",
         "proton results are not MTJ storage flips"
       ]
@@ -54,11 +57,11 @@
         "literature_i_write_a": 0.0001,
         "literature_i_c_sot_a": 0.00008,
         "write_pulse_width_ns": 1.0,
-        "parameter_source": "SOT-MRAM辐照错误建模参数汇总.md §7.1"
+        "parameter_source": "SOT-MRAM irradiation summary section 7.1"
       },
       "limitations": [
         "selected-path 1T1MTJ + SOT-channel double-exponential Qcrit screen only",
-        "hold comparison uses high-Z MTJ proxy (50 kOhm per summary §3) and weakened write drivers; not intrinsic WER",
+        "hold comparison uses high-Z MTJ proxy (50 kOhm per summary section 3) and weakened write drivers; not intrinsic WER",
         "does not convert Qcrit to dynamic particle cross section",
         "address decoder, control logic and SEFI absent"
       ]
