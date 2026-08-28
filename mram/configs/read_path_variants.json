@@ -1,9 +1,46 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
+  "parameter_source": "SOT-MRAM辐照错误建模参数汇总.md §7.1 / §7.2",
   "variants": {
-    "read_proxy_v1": {
-      "label": "v1 scaled read proxy (functional baseline)",
-      "literature_basis": "arXiv:2404.09125 TMR/R anchors; R and C scaled for BL loading",
+    "general_sot_7_1": {
+      "label": "通用 SOT-MRAM 模型（汇总 §7.1，Qcrit 基线）",
+      "literature_basis": "TMR=100%, RL=10kΩ, RH=20kΩ, I_write=100μA, I_CSOT=80μA, σ_VOS=6mV, RSD=8%",
+      "r_p_ohm": 10000.0,
+      "r_ap_ohm": 20000.0,
+      "r_ref_ohm": 14142.135623731,
+      "c_mtj_fF": 5.0,
+      "access_width_nm": 960.0,
+      "sa_enable_ns": 1.85,
+      "sense_delay_ns": 0.35,
+      "read_window_ns": 0.72
+    },
+    "optimized_nature_7_2": {
+      "label": "Nat. Commun. 优化 SOT-MRAM（汇总 §7.2）",
+      "literature_basis": "TMR=150%, RL=8kΩ, RH=20kΩ, I_CSOT=45μA, σ_VOS=4mV, RSD=6%, V_PRE=0.25V",
+      "r_p_ohm": 8000.0,
+      "r_ap_ohm": 20000.0,
+      "r_ref_ohm": 12649.1106406735,
+      "c_mtj_fF": 5.0,
+      "access_width_nm": 960.0,
+      "sa_enable_ns": 1.85,
+      "sense_delay_ns": 0.35,
+      "read_window_ns": 0.72
+    },
+    "array_tuned_7_1": {
+      "label": "§7.1 电阻 + 2048×128 读列时序/.access 加宽",
+      "literature_basis": "general_sot_7_1 with widened WN and extended SA for hierarchical BL loading",
+      "r_p_ohm": 10000.0,
+      "r_ap_ohm": 20000.0,
+      "r_ref_ohm": 14142.135623731,
+      "c_mtj_fF": 5.0,
+      "access_width_nm": 1200.0,
+      "sa_enable_ns": 2.05,
+      "sense_delay_ns": 0.40,
+      "read_window_ns": 0.72
+    },
+    "legacy_scaled_proxy": {
+      "label": "旧版 arXiv 缩放代理（仅供与历史 Qcrit TSV 对照）",
+      "literature_basis": "arXiv:2404.09125 scaled 5k/10.95k — superseded by summary §7.1",
       "r_p_ohm": 5000.0,
       "r_ap_ohm": 10950.0,
       "r_ref_ohm": 7416.0,
@@ -11,42 +48,6 @@
       "access_width_nm": 480.0,
       "sa_enable_ns": 1.65,
       "sense_delay_ns": 0.25,
-      "read_window_ns": 0.72
-    },
-    "literature_resistance": {
-      "label": "literature R_P/R_AP with widened access device",
-      "literature_basis": "arXiv:2404.09125 measured R_P=10.89 kOhm, TMR=119%",
-      "r_p_ohm": 10890.0,
-      "r_ap_ohm": 23849.1,
-      "r_ref_ohm": 16170.0,
-      "c_mtj_fF": 5.0,
-      "access_width_nm": 960.0,
-      "sa_enable_ns": 1.85,
-      "sense_delay_ns": 0.35,
-      "read_window_ns": 0.72
-    },
-    "literature_capacitance": {
-      "label": "literature-order C_MTJ (~40 fF) with scaled R",
-      "literature_basis": "co-optimization paper order-of-magnitude MTJ capacitance",
-      "r_p_ohm": 5000.0,
-      "r_ap_ohm": 10950.0,
-      "r_ref_ohm": 7416.0,
-      "c_mtj_fF": 40.0,
-      "access_width_nm": 480.0,
-      "sa_enable_ns": 1.75,
-      "sense_delay_ns": 0.30,
-      "read_window_ns": 0.72
-    },
-    "literature_combined_tuned": {
-      "label": "literature R + widened access + extended SA timing",
-      "literature_basis": "best-effort alignment to arXiv:2404.09125 without foundry PEX",
-      "r_p_ohm": 10890.0,
-      "r_ap_ohm": 23849.1,
-      "r_ref_ohm": 16170.0,
-      "c_mtj_fF": 10.0,
-      "access_width_nm": 1200.0,
-      "sa_enable_ns": 2.05,
-      "sense_delay_ns": 0.40,
       "read_window_ns": 0.72
     }
   },

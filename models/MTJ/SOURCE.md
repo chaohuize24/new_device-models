@@ -1,52 +1,64 @@
 # SOT-MTJ compact parameters provenance
 
-This release uses a **resistor-capacitor proxy** for the magnetic tunnel junction in ngspice read-path simulations. It is not a micromagnetic or STT/SOT switching compact model.
+Primary source: **`SOT-MRAM辐照错误建模参数汇总.md`** (课题组参数汇总表).  
+Machine-readable mirror: `sot_mtj_parameters.json`.
 
-## Primary literature anchors
+This release uses a **resistor-capacitor proxy** for the MTJ in ngspice read-path simulations. It is not a micromagnetic or STT/SOT switching compact model.
+
+## Baseline workpoint (§7.1 通用 SOT-MRAM 模型)
+
+| Parameter | Value | Summary reference |
+|---|---:|---|
+| TMR | 100% | §7.1 |
+| R_P (R_L) | 10 kΩ | §7.1 / §2 |
+| R_AP (R_H) | 20 kΩ | §7.1 / §2 |
+| R_REF | 14.14 kΩ | √(R_P×R_AP) |
+| Δ | 32 | §7.1 |
+| I_write | 100 μA | §7.1 / §3 |
+| I_read | 30 μA | §7.1 / §3 |
+| I_CSOT | 80 μA | §7.1 |
+| T_switch | 1 ns | §7.1 / §3 |
+| RSD | 8% | §7.1 |
+| σ_VOS (SA) | 6 mV | §7.1 |
+| V_PRE | 0.3 V | §7.1 |
+| μ_SM / σ_SM | 45 mV / 10 mV | §3 |
+| R_load | 50 kΩ | §3 (hold/write screen proxy) |
+
+Hierarchical read netlist uses **array_tuned_7_1**: same R/TMR, WN=1200 nm, extended SA timing for 2048×128 BL loading.
+
+## Optimized variant (§7.2 Nat. Commun.)
+
+| Parameter | Value |
+|---|---:|
+| TMR | 150% |
+| R_P | 8 kΩ |
+| R_AP | 20 kΩ |
+| Δ | 50 |
+| I_CSOT | 45 μA |
+| RSD | 6% |
+| σ_VOS | 4 mV |
+| V_PRE | 0.25 V |
+
+See `mram/configs/read_path_variants.json` for functional screens.
+
+## Radiation modeling scope (from summary §1, §5)
+
+- **Modeled in v2 pipeline:** CMOS read periphery SEE (Qcrit + RPP + SPENVIS); SOT write-window Qcrit screen.
+- **Not modeled:** MTJ storage flip σ; SEFI/SEL; TID TMR(I) analytic curves (§5.1) — TID corners remain CMOS electrical only.
+- **Reference SEE default:** σ_SEU = 1×10⁻¹² cm²/bit (summary §5.2, not converted to absolute rate in v1).
+
+## Supplementary fab anchor (not default baseline)
 
 | Parameter | Value | Source |
 |---|---:|---|
-| TMR | 119% | Perpendicular SOT-MTJ on 300 mm wafer, mean of 234 devices (arXiv:2404.09125) |
-| R_P (parallel) | 10.89 kΩ | Same |
-| R_AP (antiparallel) | 23.85 kΩ | Derived: R_P × (1 + TMR/100) |
-| I_c P→AP @ 2 ns | 680 μA | Same |
-| I_c AP→P @ 2 ns | 880 μA | Same |
-| R_SOT channel | 776 Ω | Same (write path; not in read Qcrit netlist) |
-| Δ (thermal stability) | ~59 | IEEE VLSI-TSA 2023 co-optimization paper (order-of-magnitude anchor) |
-| Write pulse (demo) | 2 ns | arXiv:2404.09125 minimum demonstrated pulse width |
+| TMR | 119% | arXiv:2404.09125 (300 mm demo) |
+| R_P | 10.89 kΩ | Same |
+| I_c @ 2 ns | 680 / 880 μA | Same |
 
-## Engineering substitutes (no layout / no foundry PDK)
+Kept in `supplementary_fab_anchors`; superseded for default workpoint by summary §7.1.
 
-| Parameter | Value | Rationale |
-|---|---:|---|
-| C_MTJ (read Qcrit) | 5 fF | Scaled read proxy for 256-row BL loading (`read_proxy_v1`) |
-| C_MTJ (literature order) | 40 fF | Typical order-of-magnitude MTJ capacitance (`literature_capacitance` variant) |
-| R_REF | 7.416 kΩ (proxy) / 16.17 kΩ (literature) | Midpoint √(R_P×R_AP) per variant |
-| Access WN | 480 nm (proxy) / up to 1200 nm (literature-tuned) | Read margin vs arXiv:2404.09125 R_P loading |
-| NLEAK | 127.5 | Average unselected-cell leakage count on 256-row local BL (same proxy as ROM `NPRESENT`) |
+## Legacy note
 
-## Read-path variant screen (`mram/results/read_path_sensitivity.tsv`)
+Previous **5 kΩ / 10.95 kΩ** scaled proxy (`legacy_scaled_proxy`) matches the **existing Qcrit TSV** until `characterize` is re-run at §7.1 parameters.
 
-All four documented variants pass nominal READ0/READ1 at 0.72 ns after timing tuning:
-
-- **read_proxy_v1** — characterized Qcrit baseline (scaled R/C).
-- **literature_resistance** — measured R_P/R_AP + widened access.
-- **literature_capacitance** — 40 fF C_MTJ order-of-magnitude.
-- **literature_combined_tuned** — literature R + 1200 nm access + extended SA timing.
-
-Re-characterizing Qcrit at literature R remains future work; functional screen shows read margin is recoverable without abandoning literature resistance anchors.
-
-## Write-path screen (`post_write` channel)
-
-Separate netlists in `mram/netlists/sot_dynamic_strike/`:
-
-- SOT current pulse 800 µA / 2 ns (literature order: 680/880 µA, arXiv:2404.09125).
-- Double-exponential collected-charge Qcrit during write vs hold on 1T1MTJ cell.
-- Hold screen uses high-Z MTJ proxy (500 kΩ); not a storage flip model.
-
-## Radiation literature (not converted to σ curves in v1)
-
-- MTJ storage is reported intrinsically tolerant to heavy-ion bit flips; failures concentrate in CMOS periphery (IEEE TMAG 2018.2830701; APCCAS 2022 STT-MRAM; TNS 2025 SOT-MRAM arrays).
-- TNS 2025 reports stable I_c/TMR/BER under Bi/Ta/Kr irradiation, with occasional MgO short-circuit failures at extreme LET — not modeled as per-bit toggle in v1.
-
-Replace this proxy with target-process PDK + PEX + calibrated Verilog-A / micromagnetic MTJ before silicon-level absolute claims.
+Replace R/C proxy with foundry PDK + PEX + micromagnetic MTJ before silicon-level absolute claims.

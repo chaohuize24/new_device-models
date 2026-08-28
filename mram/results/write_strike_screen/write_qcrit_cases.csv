@@ -1,7 +1,7 @@
 pvt_corner,tid_corner,desired_bit,node,strike_time_ns,strike_source,strike_sink,adverse_polarity,qcrit_fc,status
-nominal,central,0,bl,0.16,0,bl,low_node_charge_injection,128.0,not_bracketed
-nominal,central,0,bl,0.8,0,bl,low_node_charge_injection,128.0,not_bracketed
-nominal,central,0,bl,1.6,0,bl,low_node_charge_injection,0.00625,bracketed
+nominal,central,0,bl,0.16,0,bl,low_node_charge_injection,0.00625,bracketed
+nominal,central,0,bl,0.8,0,bl,low_node_charge_injection,0.00625,bracketed
+nominal,central,0,bl,1.6,0,bl,low_node_charge_injection,128.0,not_bracketed
 nominal,central,0,bl,2.14,0,bl,low_node_charge_injection,128.0,not_bracketed
 nominal,central,0,mtj,0.16,0,mtj,low_node_charge_injection,128.0,not_bracketed
 nominal,central,0,mtj,0.8,0,mtj,low_node_charge_injection,128.0,not_bracketed

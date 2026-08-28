@@ -22,11 +22,11 @@
 VSUPPLY vdd 0 {VDDVAL}
 VWL wl 0 0
 
-* Complementary write enables aligned with the SOT pulse window.
-VBLD bld 0 PWL(0 0 0.15n 0 0.17n __BLD_V__ 2.15n __BLD_V__ 2.17n 0 3.0n 0)
-VBLDB bldb 0 PWL(0 0 0.15n 0 0.17n __BLDB_V__ 2.15n __BLDB_V__ 2.17n 0 3.0n 0)
+* SOT write pulse: 1 ns nominal window (参数汇总 §7.1 T_switch=1ns).
+VBLD bld 0 PWL(0 0 0.15n 0 0.17n __BLD_V__ 1.17n __BLD_V__ 1.19n 0 2.0n 0)
+VBLDB bldb 0 PWL(0 0 0.15n 0 0.17n __BLDB_V__ 1.17n __BLDB_V__ 1.19n 0 2.0n 0)
 
-VSOT sot_drv 0 PWL(0 0 0.15n 0 0.17n {IWRITE} 2.15n {IWRITE} 2.17n 0 3.0n 0)
+VSOT sot_drv 0 PWL(0 0 0.15n 0 0.17n {IWRITE} 1.17n {IWRITE} 1.19n 0 2.0n 0)
 RSOT sot_drv sot_top {R_SOT}
 RSOTR sot_top 0 1
 

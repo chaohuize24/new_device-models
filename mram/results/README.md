@@ -15,8 +15,8 @@
 ## 指标定义
 
 - 只对 **CMOS 读外围**（GBL/SA）做 Qcrit + RPP + LET 积分；MTJ 用电阻读代理，不含磁翻转。
-- 与 ROM 同方法论；与 SRAM 驻留 BER **不可直接比较**。
-- `low / nominal / high` 是工程包络，不是统计置信区间。
+- **电气基线**已对齐 `SOT-MRAM辐照错误建模参数汇总.md` **§7.1**（10 kΩ / 20 kΩ）。
+- 本目录中 **HI/质子积分 TSV 仍基于旧 5 kΩ Qcrit 样本**；改参后请重跑 characterize。
 
 ## 复现
 

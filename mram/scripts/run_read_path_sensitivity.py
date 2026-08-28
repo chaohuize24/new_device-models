@@ -121,18 +121,26 @@ def main() -> int:
         writer.writeheader()
         writer.writerows(rows)
 
-    recommended = next((r for r in rows if r["functional_pass"]), None)
-    literature_pass = [r for r in rows if r["variant_id"] != "read_proxy_v1" and r["functional_pass"]]
+    recommended = next((r for r in rows if r["variant_id"] == "general_sot_7_1" and r["functional_pass"]), None)
+    if recommended is None:
+        recommended = next((r for r in rows if r["functional_pass"]), None)
+    literature_pass = [
+        r["variant_id"]
+        for r in rows
+        if r["variant_id"] in ("optimized_nature_7_2", "array_tuned_7_1") and r["functional_pass"]
+    ]
     summary = {
-        "schema_version": 1,
+        "schema_version": 2,
+        "parameter_source": "SOT-MRAM辐照错误建模参数汇总.md",
         "variants_tested": len(rows),
         "functional_pass_count": sum(r["functional_pass"] for r in rows),
-        "recommended_variant_for_qcrit": recommended["variant_id"] if recommended else "read_proxy_v1",
-        "literature_aligned_functional_variants": [r["variant_id"] for r in literature_pass],
-        "v1_baseline": "read_proxy_v1",
+        "recommended_variant_for_qcrit": recommended["variant_id"] if recommended else "general_sot_7_1",
+        "literature_aligned_functional_variants": literature_pass,
+        "v1_baseline": "general_sot_7_1",
+        "legacy_qcrit_baseline": "legacy_scaled_proxy",
         "claim": (
-            "read_proxy_v1 is the characterized baseline; literature variants document "
-            "timing/access scaling needed before re-characterizing Qcrit at measured R"
+            "general_sot_7_1 (summary §7.1) is the new electrical baseline; "
+            "legacy_scaled_proxy matches old Qcrit TSV until re-characterize"
         ),
         "rows": rows,
     }

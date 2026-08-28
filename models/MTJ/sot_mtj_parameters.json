@@ -1,63 +1,139 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "device_class": "perpendicular_SOT_MRAM_1T1MTJ",
-  "literature_anchors": [
-    {
-      "doi_or_id": "arXiv:2404.09125",
-      "title": "Achieving High Yield of Perpendicular SOT-MTJ Manufactured on 300 mm Wafers",
-      "parameters_used": ["TMR", "R_P", "I_c_P_to_AP_2ns", "I_c_AP_to_P_2ns", "R_SOT"]
+  "primary_parameter_source": {
+    "title": "SOT-MRAM 辐照错误建模参数汇总",
+    "path_hint": "课题组桌面/SOT-MRAM辐照错误建模参数汇总.md",
+    "default_workpoint": "general_sot_7_1",
+    "cmos_node_note": "汇总表 28 nm 模型；本项目 ngspice 仍用 PTM 32 nm LP 读列代理"
+  },
+  "workpoints": {
+    "general_sot_7_1": {
+      "label": "通用 SOT-MRAM 模型（汇总 §7.1）",
+      "temperature_K": 300,
+      "VDD_V": 1.0,
+      "cmos_node_nm": 28,
+      "TMR_percent": 100.0,
+      "R_P_ohm": 10000.0,
+      "R_AP_ohm": 20000.0,
+      "R_REF_ohm": 14142.135623731,
+      "delta_thermal_stability": 32,
+      "I_write_uA": 100.0,
+      "I_read_uA": 30.0,
+      "I_c_sot_uA": 80.0,
+      "write_pulse_width_ns": 1.0,
+      "RSD_percent": 8.0,
+      "sigma_VOS_mV": 6.0,
+      "V_PRE_V": 0.3,
+      "mu_sense_margin_mV": 45.0,
+      "sigma_sense_margin_mV": 10.0,
+      "R_load_ohm": 50000.0
     },
-    {
-      "doi_or_id": "10.1109/vlsi-tsa/vlsi-dat57221.2023.10134109",
-      "title": "Structure and Performance Co-optimization for SOT-MRAM",
-      "parameters_used": ["delta_thermal_stability_order_of_magnitude"]
+    "optimized_nature_7_2": {
+      "label": "北航 Nat. Commun. 优化 SOT-MRAM（汇总 §7.2, ref [13]）",
+      "temperature_K": 300,
+      "VDD_V": 1.0,
+      "TMR_percent": 150.0,
+      "R_P_ohm": 8000.0,
+      "R_AP_ohm": 20000.0,
+      "R_REF_ohm": 12649.1106406735,
+      "delta_thermal_stability": 50,
+      "I_write_uA": 100.0,
+      "I_read_uA": 30.0,
+      "I_c_sot_uA": 45.0,
+      "write_pulse_width_ns": 1.0,
+      "RSD_percent": 6.0,
+      "sigma_VOS_mV": 4.0,
+      "V_PRE_V": 0.25,
+      "H_EB_Oe": 500,
+      "alpha_gilbert": 0.008,
+      "theta_SH": 0.3,
+      "T_ox_nm": 1.2,
+      "t_FL_nm": 1.8,
+      "P_read_order": 1e-6,
+      "P_write_order": 1e-8
     }
-  ],
+  },
+  "magnetic_stack": {
+    "T_ox_nm_nominal": 1.15,
+    "T_ox_nm_range": [1.0, 1.4],
+    "phi_eV": 0.4,
+    "t_FL_nm": 1.8,
+    "K_u_J_per_m3": 1.25e6,
+    "M_s_A_per_m": 1200000.0,
+    "alpha_range": [0.005, 0.015],
+    "theta_SH_range": [0.2, 0.35],
+    "lambda_sf_nm": 1.5,
+    "D_n_nm": 30
+  },
+  "radiation_reference": {
+    "see_seu_sigma_cm2_per_bit_default": 1e-12,
+    "see_flux_particles_per_cm2_default": 1e10,
+    "seu_let_threshold_mev_cm2_mg_stt_reference": 10.0,
+    "tid_model_default_krad_si": 100.0,
+    "tmr_degradation_per_krad": 0.012,
+    "note": "STT/商用 MRAM 条目标注于汇总表；SOT 存储阵列 SEE 仍不在 v1 瞬态网表"
+  },
   "electrical": {
-    "R_P_ohm_literature": 10890.0,
-    "TMR_percent": 119.0,
-    "R_AP_ohm_literature": 23849.1,
-    "R_P_ohm_read_proxy": 5000.0,
-    "R_AP_ohm_read_proxy": 10950.0,
-    "R_REF_ohm_read_proxy": 7416.0,
-    "C_MTJ_fF_literature_order": 40.0,
+    "R_P_ohm_baseline": 10000.0,
+    "R_AP_ohm_baseline": 20000.0,
+    "R_REF_ohm_baseline": 14142.135623731,
+    "TMR_percent_baseline": 100.0,
     "C_MTJ_fF_read_proxy": 5.0,
+    "access_width_nm_baseline": 960.0,
+    "I_write_uA_baseline": 100.0,
+    "I_c_sot_uA_baseline": 80.0,
+    "I_read_uA_baseline": 30.0,
+    "write_pulse_width_ns_baseline": 1.0,
+    "R_load_ohm_baseline": 50000.0,
     "R_SOT_channel_ohm": 776.0,
-    "I_c_P_to_AP_uA_at_2ns": 680.0,
-    "I_c_AP_to_P_uA_at_2ns": 880.0,
-    "write_pulse_width_ns": 2.0,
-    "delta_thermal_stability": 59.0,
-    "VDD_read_V": 1.0
+    "VDD_read_V": 1.0,
+    "delta_thermal_stability_baseline": 32
+  },
+  "supplementary_fab_anchors": {
+    "arXiv_2404_09125": {
+      "note": "300 mm 流片实测；与汇总通用工作点并存，不作为 v2 默认基线",
+      "TMR_percent": 119.0,
+      "R_P_ohm": 10890.0,
+      "I_c_P_to_AP_uA_at_2ns": 680.0,
+      "I_c_AP_to_P_uA_at_2ns": 880.0
+    }
   },
   "notes": {
-    "read_model": "linear resistor + capacitor; no stochastic switching in read Qcrit flow",
-    "write_model": "separate SOT current-pulse netlist; not merged into read BER",
-    "not_a_foundry_PDK": true
+    "read_model": "linear R/C MTJ + CMOS read column; Qcrit/RPP for SEE on periphery",
+    "write_model": "SOT current pulse + BL drivers; I_W/I_C from summary §7.1",
+    "results_stale_after_rebaseline": "HI/proton Qcrit TSV 基于旧 5k/10.95k 代理；改参后需重跑 characterize"
   },
   "read_path_tiers": {
-    "read_proxy_v1": {
+    "general_sot_7_1": {
       "status": "characterized_baseline",
-      "r_p_ohm": 5000.0,
-      "r_ap_ohm": 10950.0,
-      "c_mtj_fF": 5.0,
-      "access_width_nm": 480.0,
-      "rationale": "scaled from literature for functional read margin with 256-row BL loading"
-    },
-    "literature_resistance": {
-      "status": "sensitivity_variant",
-      "r_p_ohm": 10890.0,
-      "r_ap_ohm": 23849.1,
+      "workpoint": "general_sot_7_1",
+      "r_p_ohm": 10000.0,
+      "r_ap_ohm": 20000.0,
       "c_mtj_fF": 5.0,
       "access_width_nm": 960.0,
-      "rationale": "arXiv:2404.09125 measured R with widened access; see read_path_sensitivity.tsv"
+      "sa_enable_ns": 1.85,
+      "sense_delay_ns": 0.35
     },
-    "literature_combined_tuned": {
+    "optimized_nature_7_2": {
       "status": "sensitivity_variant",
-      "r_p_ohm": 10890.0,
-      "r_ap_ohm": 23849.1,
-      "c_mtj_fF": 10.0,
+      "workpoint": "optimized_nature_7_2",
+      "r_p_ohm": 8000.0,
+      "r_ap_ohm": 20000.0,
+      "c_mtj_fF": 5.0,
+      "access_width_nm": 960.0,
+      "sa_enable_ns": 1.85,
+      "sense_delay_ns": 0.35
+    },
+    "array_tuned_7_1": {
+      "status": "hierarchical_netlist_default",
+      "workpoint": "general_sot_7_1",
+      "r_p_ohm": 10000.0,
+      "r_ap_ohm": 20000.0,
+      "c_mtj_fF": 5.0,
       "access_width_nm": 1200.0,
-      "rationale": "best-effort literature alignment with extended SA timing"
+      "sa_enable_ns": 2.05,
+      "sense_delay_ns": 0.40
     }
   }
 }

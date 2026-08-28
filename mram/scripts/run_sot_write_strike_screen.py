@@ -71,8 +71,8 @@ def common_replacements(config: dict, model: Path, mtj: dict, pvt_name: str, tid
         "__MODEL_PATH__": str(model.resolve()),
         "__VDD__": fmt(pvt["vdd_v"]),
         "__TEMP_C__": fmt(pvt["temperature_c"]),
-        "__R_P__": fmt(cell["r_p_ohm_read_proxy"]),
-        "__R_AP__": fmt(cell["r_ap_ohm_read_proxy"]),
+        "__R_P__": fmt(cell.get("r_p_ohm", cell.get("r_p_ohm_read_proxy", 10000.0))),
+        "__R_AP__": fmt(cell.get("r_ap_ohm", cell.get("r_ap_ohm_read_proxy", 20000.0))),
         "__R_SOT__": fmt(cell["r_sot_ohm"]),
         "__C_MTJ__": f"{cell['c_mtj_fF']:.12g}f",
         "__MU_SCALE__": fmt(tid["mobility_scale"]),
@@ -200,9 +200,9 @@ def run_write_case(task: dict, config: dict, model: Path, template: str, ngspice
     pvt = config["conditional_pvt_corners"][task["pvt_corner"]]
     vdd = float(pvt["vdd_v"])
     common = common_replacements(config, model, mtj, task["pvt_corner"], task["tid_corner"])
-    common["_R_P"] = fmt(config["cell"]["r_p_ohm_read_proxy"])
-    common["_R_AP"] = fmt(config["cell"]["r_ap_ohm_read_proxy"])
-    common["_HOLD_R"] = fmt(config["cell"]["hold_screen_r_mtj_ohm"])
+    common["_R_P"] = fmt(config["cell"].get("r_p_ohm", config["cell"].get("r_p_ohm_read_proxy", 10000.0)))
+    common["_R_AP"] = fmt(config["cell"].get("r_ap_ohm", config["cell"].get("r_ap_ohm_read_proxy", 20000.0)))
+    common["_HOLD_R"] = fmt(config["cell"].get("hold_screen_r_mtj_ohm", 50000.0))
     source, sink, polarity = adverse_strike_term(task["node"], task["desired_bit"])
     strike = config["strike"]
     with tempfile.TemporaryDirectory(prefix="sot_write_strike_") as tmp:
@@ -232,9 +232,9 @@ def run_hold_case(task: dict, config: dict, model: Path, template: str, ngspice:
     pvt = config["conditional_pvt_corners"][task["pvt_corner"]]
     vdd = float(pvt["vdd_v"])
     common = common_replacements(config, model, mtj, task["pvt_corner"], task["tid_corner"])
-    common["_R_P"] = fmt(config["cell"]["r_p_ohm_read_proxy"])
-    common["_R_AP"] = fmt(config["cell"]["r_ap_ohm_read_proxy"])
-    common["_HOLD_R"] = fmt(config["cell"]["hold_screen_r_mtj_ohm"])
+    common["_R_P"] = fmt(config["cell"].get("r_p_ohm", config["cell"].get("r_p_ohm_read_proxy", 10000.0)))
+    common["_R_AP"] = fmt(config["cell"].get("r_ap_ohm", config["cell"].get("r_ap_ohm_read_proxy", 20000.0)))
+    common["_HOLD_R"] = fmt(config["cell"].get("hold_screen_r_mtj_ohm", 50000.0))
     source, sink, polarity = adverse_strike_term(task["node"], task["stored_bit"])
     strike = config["strike"]
     with tempfile.TemporaryDirectory(prefix="sot_hold_strike_") as tmp:
@@ -381,7 +381,7 @@ Selected-path electrical vulnerability screen for the SOT write window (not abso
 - Minimum write Qcrit: {overall['minimum_write_qcrit_fc']:.6g} fC
 - Minimum hold Qcrit: {overall['minimum_hold_qcrit_fc']:.6g} fC
 - min(write)/min(hold): {worst_ratio:.6g}
-- Literature Iwrite anchor: {config['cell']['i_write_a']*1e6:.0f} uA @ 2 ns (arXiv:2404.09125)
+- Write pulse anchor: {config['cell']['i_write_a']*1e6:.0f} uA @ {config['cell'].get('write_pulse_width_ns', 1.0):g} ns (参数汇总 §7.1)
 
 Does not include address decoder, control logic, or intrinsic stochastic WER.
 """

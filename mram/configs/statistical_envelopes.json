@@ -1,13 +1,14 @@
 {
-  "schema_version": 1,
-  "scope": "SOT-MRAM read periphery on PTM32; same RPP envelope as ROM until layout calibration",
+  "schema_version": 2,
+  "scope": "SOT-MRAM read periphery; variation from 参数汇总 §3 (RSD, σ_VOS, μ/σ_SM)",
+  "parameter_source": "SOT-MRAM辐照错误建模参数汇总.md",
   "levels": {
     "low": {
-      "vth_relative_sigma": 0.03,
-      "mobility_relative_sigma": 0.03,
-      "capacitance_relative_sigma": 0.02,
-      "sense_offset_sigma_mv": 6.0,
-      "dynamic_noise_sigma_mv": 1.0,
+      "vth_relative_sigma": 0.06,
+      "mobility_relative_sigma": 0.06,
+      "capacitance_relative_sigma": 0.04,
+      "sense_offset_sigma_mv": 4.0,
+      "dynamic_noise_sigma_mv": 6.0,
       "collection_efficiency_median": 0.25,
       "collection_efficiency_cv": 0.30,
       "sensitive_depth_um": 0.10,
@@ -19,11 +20,11 @@
       "tid_off_current_scale_at_14p32krad": 1.001938786
     },
     "nominal": {
-      "vth_relative_sigma": 0.05,
-      "mobility_relative_sigma": 0.05,
+      "vth_relative_sigma": 0.08,
+      "mobility_relative_sigma": 0.08,
       "capacitance_relative_sigma": 0.05,
-      "sense_offset_sigma_mv": 10.0,
-      "dynamic_noise_sigma_mv": 2.0,
+      "sense_offset_sigma_mv": 6.0,
+      "dynamic_noise_sigma_mv": 10.0,
       "collection_efficiency_median": 0.50,
       "collection_efficiency_cv": 0.40,
       "sensitive_depth_um": 0.20,
@@ -38,8 +39,8 @@
       "vth_relative_sigma": 0.10,
       "mobility_relative_sigma": 0.10,
       "capacitance_relative_sigma": 0.10,
-      "sense_offset_sigma_mv": 20.0,
-      "dynamic_noise_sigma_mv": 5.0,
+      "sense_offset_sigma_mv": 8.0,
+      "dynamic_noise_sigma_mv": 15.0,
       "collection_efficiency_median": 1.00,
       "collection_efficiency_cv": 0.50,
       "sensitive_depth_um": 0.50,
@@ -52,7 +53,11 @@
     }
   },
   "notes": {
-    "device": "SOT-MRAM 1T1MTJ read column; MTJ is resistor-capacitor proxy",
-    "areas_and_collection": "layout/TCAD-free; dominates absolute cross-section uncertainty"
+    "device": "SOT-MRAM 1T1MTJ read column; MTJ R/C from summary §7.1",
+    "RSD_mapping": "low/nominal/high ≈ 6%/8%/10% from summary §3 and §7",
+    "sigma_VOS_mapping": "4/6/8 mV from optimized/general/upper envelope",
+    "sigma_SM_reference_mV": 10,
+    "areas_and_collection": "layout/TCAD-free; dominates absolute cross-section uncertainty",
+    "see_reference_sigma_cm2": 1e-12
   }
 }

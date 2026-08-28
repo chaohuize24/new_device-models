@@ -5,7 +5,8 @@
 * DATA0: selected cell in parallel (P, low R) -> expected DATA_OUT0=0
 * DATA1: selected cell in antiparallel (AP, high R) -> expected DATA_OUT1=1
 *
-* MTJ parameters from models/MTJ/sot_mtj_parameters.json (arXiv:2404.09125 anchor)
+* MTJ parameters from models/MTJ/sot_mtj_parameters.json
+* Baseline workpoint: 参数汇总 §7.1 (TMR=100%, R_P=10k, R_AP=20k, I_read=30uA, I_write=100uA, T_switch=1ns)
 
 .include ../../models/PTM_bulk/32nm_LP.pm
 
@@ -22,12 +23,11 @@
 .param DVTH_SA_MV=0
 
 * MTJ electrical proxy (ohm / fF)
-* Read-path scaled from arXiv:2404.09125 (10.89k/119% TMR) to match array BL loading;
-* absolute R values are a pre-layout read-margin proxy, not a foundry bit-cell measurement.
-.param R_P=5k R_AP=10.95k R_REF=7.416k C_MTJ=5f
+* Read-path baseline from SOT-MRAM辐照错误建模参数汇总.md §7.1 (array-tuned access width).
+.param R_P=10k R_AP=20k R_REF=14.142k C_MTJ=5f
 
 .param LCH=32n
-.param WN=480n WP=960n
+.param WN=1200n WP=960n
 .param WSEG_N=240n WSEG_P=480n WCOL_N=240n WCOL_P=480n WPRE=480n
 .param WNSA=240n WPSA=480n WTAIL=480n WSA_SUPPLY=960n
 
@@ -42,9 +42,9 @@
 .param TSEGON=0.80n
 .param TPREOFF=1.00n
 .param TWLON=1.10n
-.param TSAEN=1.65n
-.param TDEVELOP=1.60n
-.param TSENSE=1.90n
+.param TSAEN=2.05n
+.param TDEVELOP=2.00n
+.param TSENSE=2.45n
 
 .param TAUR_SET=5p TAUF_SET=50p
 .param QGBL_FC=0 TINJ_GBL=1.35n I0GBL={QGBL_FC*1e-15/(TAUF_SET-TAUR_SET)}

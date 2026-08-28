@@ -16,9 +16,11 @@
 
 `netlists/sot_mram_hierarchical_senseamp.cir` 是当前主网表：2048×128 阵列的代表性一列，**1T1MTJ** 读单元（P/AP 电阻代理 + C_MTJ），256 行/局部段，CMOS 分段选择，4:1 列选，全局差分位线，参考 dummy MTJ 和时钟差分锁存感放。
 
-MTJ 电学参数见 `../models/MTJ/sot_mtj_parameters.json` 与 `../models/MTJ/SOURCE.md`。文献锚点为 arXiv:2404.09125（300 mm SOT-MTJ：TMR 119%、R_P 10.89 kΩ）；网表读路径使用 **5 kΩ / 10.95 kΩ** 缩放代理以匹配阵列 BL 负载（见 SOURCE.md）。
+MTJ 电学参数见 `../models/MTJ/sot_mtj_parameters.json` 与 `../models/MTJ/SOURCE.md`。**默认基线**来自 `SOT-MRAM辐照错误建模参数汇总.md` **§7.1**（TMR=100%、R_P=10 kΩ、R_AP=20 kΩ、I_write=100 μA、I_CSOT=80 μA、T_switch=1 ns）。层次化读网表采用 **array_tuned_7_1**（加宽 access / 延长 SA 时序）。
 
-SOT 写路径（独立 SOT 通道、Ic≈680–880 μA @ 2 ns）已提供 **写窗口 Qcrit 筛选**（`post_write` 通道，`screening_only`），见 `netlists/sot_dynamic_strike/` 与 `scripts/run_sot_write_strike_screen.py`。不是绝对动态写截面或 intrinsic WER。
+SOT 写路径按汇总 **§7.1**：100 μA / 1 ns 写脉冲 + Qcrit 筛选（`post_write`，`screening_only`）。
+
+> **注意**：`results/mram_joint_qcrit_samples.tsv` 等仍基于旧 **5 kΩ/10.95 kΩ** 代理生成；改参后需重跑 `characterize` 与 `cross-section`。
 
 读路径除 scaled proxy 外，`configs/read_path_variants.json` 记录了文献 R/C 变体；`scripts/run_read_path_sensitivity.py` 验证四类变体在 0.72 ns 读窗口内均可功能读通。
 
