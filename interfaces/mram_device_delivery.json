@@ -23,6 +23,7 @@
       "search_ready": false,
       "normalization_basis": "per active output bit per 0.72 ns read window",
       "results": {
+        "default_track": "general_sot_7_1",
         "heavy_ion_lower_bound_low": 1.3887236375247624e-26,
         "heavy_ion_lower_bound_nominal": 1.4166487088051281e-24,
         "heavy_ion_lower_bound_high": 1.5781947056807269e-19,
@@ -34,12 +35,27 @@
         "proton_nominal_high": 1.575551293590442e-19,
         "qcrit_baseline": "general_sot_7_1 (10k/20k, array-tuned read netlist)",
         "characterize_samples_per_level": 64,
-        "characterize_date": "2026-08-28"
+        "characterize_date": "2026-08-28",
+        "fab_led_2024": {
+          "heavy_ion_lower_bound_low": 1.2846504633117172e-26,
+          "heavy_ion_lower_bound_nominal": 1.29643842372425e-24,
+          "heavy_ion_lower_bound_high": 1.5773697222605106e-19,
+          "proton_lower_bound_low": 9.111836204225436e-20,
+          "proton_lower_bound_nominal": 3.0258070298814047e-19,
+          "proton_lower_bound_high": 2.786625313411727e-20,
+          "proton_nominal_low": 1.358132037895247e-19,
+          "proton_nominal_nominal": 3.515755571448311e-19,
+          "proton_nominal_high": 1.575551293590442e-19,
+          "qcrit_baseline": "fab_led_2024 (10.89k/23.85k, TMR=119%)",
+          "characterize_date": "2026-08-29",
+          "heavy_ion_nominal_ratio_vs_7_1": 0.9151446054807267,
+          "proton_lower_bound_nominal_ratio_vs_7_1": 0.9939869514808642
+        }
       },
       "limitations": [
         "CMOS read periphery only; SOT write path and decoder/control SET absent",
         "RPP area, depth and collection efficiency are pre-layout engineering assumptions",
-        "MTJ read chain and Qcrit TSV characterized at summary section 7.1 (10k/20k, TSAEN=2.05ns)",
+        "default HI/proton numbers are general_sot_7_1; fab_led_2024 is a parallel electrical sensitivity track",
         "variation envelopes: RSD 6/8/10%, sigma_VOS 4/6/8 mV from summary section 3",
         "proton channel uses silicon LET proxy + same Qcrit samples; do not add to HI probability without union model",
         "proton results are not MTJ storage flips"

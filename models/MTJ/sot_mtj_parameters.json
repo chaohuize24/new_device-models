@@ -125,11 +125,11 @@
     "read_model": "linear R/C MTJ + CMOS read column; Qcrit/RPP for SEE on periphery",
     "write_model": "dual-track: §7.1 compact (100 μA/1 ns) vs fab_led_2024 (1020 μA/2 ns)",
     "dual_track": {
-      "circuit_compact_baseline": "general_sot_7_1 — HI/proton Qcrit characterized",
-      "fab_anchor": "fab_led_2024 — read functional + write Qcrit screen only (not re-characterized for HI rate)"
+      "circuit_compact_baseline": "general_sot_7_1 — default HI/proton delivery",
+      "fab_anchor": "fab_led_2024 — parallel read HI/proton (2026-08-29) + write Qcrit screen; HI nominal ratio vs 7.1 ≈ 0.915"
     },
     "results_stale_after_rebaseline": false,
-    "qcrit_characterized_at": "general_sot_7_1 (2026-08-28, 64 samples/level)"
+    "qcrit_characterized_at": "general_sot_7_1 (2026-08-28); fab_led_2024 (2026-08-29)"
   },
   "read_path_tiers": {
     "general_sot_7_1": {

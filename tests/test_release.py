@@ -106,6 +106,9 @@ def test_interfaces_separate_channels() -> None:
     assert "general_sot_7_1" in post and "fab_led_2024" in post
     assert post["fab_led_2024"]["write_pulse_width_ns"] == 2.0
     assert post["general_sot_7_1"]["write_pulse_width_ns"] == 1.0
+    fab_read = mram["channels"]["transient_read"]["results"]["fab_led_2024"]
+    assert fab_read["heavy_ion_lower_bound_nominal"] > 0
+    assert 0.5 < fab_read["heavy_ion_nominal_ratio_vs_7_1"] < 1.5
     sram = json.loads((ROOT / "interfaces/sram_device_delivery.json").read_text(encoding="utf-8"))
     assert sram["channels"]["persistent_state"]["search_ready"] is True
     assert sram["channels"]["transient_read"]["status"] == "missing"

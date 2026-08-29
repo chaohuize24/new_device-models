@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "workpoint": "fab_led_2024",
+  "netlist": "sot_mram_hierarchical_senseamp_fab_led_2024.cir",
+  "electrical": {
+    "R_P_ohm": 10890.0,
+    "R_AP_ohm": 23849.1,
+    "R_REF_ohm": 16110.0,
+    "TMR_percent": 119.0,
+    "source": "Yang IEEE EDL 2024 / arXiv:2404.09125"
+  },
+  "samples_per_level": 64,
+  "read_window_ns": 0.72,
+  "heavy_ion_probability_per_active_bit_read": {
+    "high": 1.5773697222605106e-19,
+    "low": 1.2846504633117172e-26,
+    "nominal": 1.29643842372425e-24
+  },
+  "proton_probability_lower_bound": {
+    "high": 2.786625313411727e-20,
+    "low": 9.111836204225436e-20,
+    "nominal": 3.0258070298814047e-19
+  },
+  "proton_probability_nominal": {
+    "high": 1.575551293590442e-19,
+    "low": 1.358132037895247e-19,
+    "nominal": 3.515755571448311e-19
+  },
+  "vs_general_sot_7_1": {
+    "heavy_ion_nominal_fab": 1.29643842372425e-24,
+    "heavy_ion_nominal_7_1": 1.4166487088051281e-24,
+    "heavy_ion_nominal_ratio_fab_over_7_1": 0.9151446054807267,
+    "proton_lower_bound_nominal_fab": 3.0258070298814047e-19,
+    "proton_lower_bound_nominal_7_1": 3.0441114195447827e-19,
+    "proton_lower_bound_nominal_ratio_fab_over_7_1": 0.9939869514808642
+  },
+  "claim": "fab_led_2024 read-window rates use measured R/TMR with the same RPP/SPENVIS chain; default delivery remains general_sot_7_1 unless explicitly switched",
+  "files": {
+    "qcrit": "results/mram_joint_qcrit_samples_fab_led_2024.tsv",
+    "heavy_ion_cross_section": "results/mram_heavy_ion_cross_section_fab_led_2024.tsv",
+    "heavy_ion_rate": "results/mram_spenvis_heavy_ion_rate_fab_led_2024.tsv",
+    "proton_cross_section": "results/mram_proton_cross_section_fab_led_2024.tsv",
+    "proton_rate": "results/mram_spenvis_proton_rate_fab_led_2024.tsv",
+    "proton_summary": "results/mram_proton_read_summary_fab_led_2024.json"
+  }
+}

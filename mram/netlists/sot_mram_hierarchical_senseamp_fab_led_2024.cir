@@ -1,0 +1,173 @@
+* Hierarchical 2048x128 SOT-MRAM representative read column
+* 1T1MTJ cells: access NMOS + linear MTJ (P/AP) + C_MTJ
+* Local BL -> segment select -> global BL -> 4:1 column mux -> latch SA
+*
+* DATA0: selected cell in parallel (P, low R) -> expected DATA_OUT0=0
+* DATA1: selected cell in antiparallel (AP, high R) -> expected DATA_OUT1=1
+*
+* Fab dual-track (Yang IEEE EDL 2024 / arXiv:2404.09125): TMR=119%
+* Same CMOS periphery as §7.1 array-tuned netlist; only MTJ R/TMR differ.
+
+.include ../../models/PTM_bulk/32nm_LP.pm
+
+.param VDDVAL=1.0
+.param TOTAL_ROWS=2048 SEG_ROWS=256 NSEG={TOTAL_ROWS/SEG_ROWS}
+.param ARRAY_COLS=128 COLMUX=4 NSA_TOTAL={ARRAY_COLS/COLMUX}
+
+* Average unselected-cell leakage count on the selected 256-row local bitline.
+.param NPRESENT=127.5 NOFF={NPRESENT}
+
+.param PAR_SCALE=1
+.param DVTH_CELL_MV=0
+.param DVTH_REF_MV=0
+.param DVTH_SA_MV=0
+
+* MTJ electrical proxy from 300 mm fab (array-tuned access width).
+.param R_P=10.89k R_AP=23.8491k R_REF=16.110k C_MTJ=5f
+
+.param LCH=32n
+.param WN=1200n WP=960n
+.param WSEG_N=240n WSEG_P=480n WCOL_N=240n WCOL_P=480n WPRE=480n
+.param WNSA=240n WPSA=480n WTAIL=480n WSA_SUPPLY=960n
+
+.param CWIRE_ROW=0.02556f CDRAIN_CELL=0.138f
+.param CSEG_SWITCH=0.276f CCOL_SWITCH=0.276f CSA_INPUT=1f
+.param CLBL0={PAR_SCALE*(SEG_ROWS*CWIRE_ROW+(NOFF+1)*CDRAIN_CELL+C_MTJ)}
+.param CLBL1={PAR_SCALE*(SEG_ROWS*CWIRE_ROW+NOFF*CDRAIN_CELL+C_MTJ)}
+.param CLBLREF={PAR_SCALE*(SEG_ROWS*CWIRE_ROW+(NOFF+0.5)*CDRAIN_CELL+C_MTJ)}
+.param CGBL={PAR_SCALE*(TOTAL_ROWS*CWIRE_ROW+NSEG*CSEG_SWITCH)}
+.param CSA_NODE={PAR_SCALE*(CSA_INPUT+COLMUX*CCOL_SWITCH)}
+
+.param TSEGON=0.80n
+.param TPREOFF=1.00n
+.param TWLON=1.10n
+.param TSAEN=2.05n
+.param TDEVELOP=2.00n
+.param TSENSE=2.45n
+
+.param TAUR_SET=5p TAUF_SET=50p
+.param QGBL_FC=0 TINJ_GBL=1.35n I0GBL={QGBL_FC*1e-15/(TAUF_SET-TAUR_SET)}
+.param QSA_FC=0  TINJ_SA=1.70n  I0SA={QSA_FC*1e-15/(TAUF_SET-TAUR_SET)}
+
+VDD vdd 0 {VDDVAL}
+VPRE pre 0 PWL(0 0 {TPREOFF-0.05n} 0 {TPREOFF} {VDDVAL} 2.4n {VDDVAL})
+VSEG segsel 0 PWL(0 0 {TSEGON-0.05n} 0 {TSEGON} {VDDVAL} 2.4n {VDDVAL})
+VSEGB segselb 0 PWL(0 {VDDVAL} {TSEGON-0.05n} {VDDVAL} {TSEGON} 0 2.4n 0)
+VCOL colsel 0 PWL(0 0 {TSEGON-0.05n} 0 {TSEGON} {VDDVAL} 2.4n {VDDVAL})
+VCOLB colselb 0 PWL(0 {VDDVAL} {TSEGON-0.05n} {VDDVAL} {TSEGON} 0 2.4n 0)
+VWL wl 0 PWL(0 0 {TWLON-0.05n} 0 {TWLON} {VDDVAL} 2.2n {VDDVAL} 2.25n 0 2.4n 0)
+VSAEN saen 0 PWL(0 0 {TSAEN-0.05n} 0 {TSAEN} {VDDVAL} 2.4n {VDDVAL})
+VSAENB saenb 0 PWL(0 {VDDVAL} {TSAEN-0.05n} {VDDVAL} {TSAEN} 0 2.4n 0)
+
+* READ-0: parallel MTJ (strong pull-down)
+MPRE_LD0 lbl_d0 pre vdd vdd pmos W={WPRE} L={LCH}
+MACC_D0 lbl_d0 wl mtj_d0 0 nmos W={WN} L={LCH} DELVTO={DVTH_CELL_MV*1m}
+RMTJ_D0 mtj_d0 0 {R_P}
+CMTJ_D0 mtj_d0 0 {C_MTJ}
+MOFF_D0 lbl_d0 0 0 0 nmos W={WN} L={LCH} M={NOFF} AD=0 AS=0 PD=0 PS=0
+CLBL_D0 lbl_d0 0 {CLBL0}
+
+MSEG_D0N gbl_d0 segsel  lbl_d0 0   nmos W={WSEG_N} L={LCH} AD=0 AS=0 PD=0 PS=0
+MSEG_D0P gbl_d0 segselb lbl_d0 vdd pmos W={WSEG_P} L={LCH} AD=0 AS=0 PD=0 PS=0
+MPRE_GD0 gbl_d0 pre vdd vdd pmos W={WPRE} L={LCH}
+CGBL_D0 gbl_d0 0 {CGBL}
+
+MPRE_LR0 lbl_r0 pre vdd vdd pmos W={WPRE} L={LCH}
+MACC_R0 lbl_r0 wl mtj_r0 0 nmos W={WN} L={LCH} DELVTO={DVTH_REF_MV*1m}
+RMTJ_R0 mtj_r0 0 {R_REF}
+CMTJ_R0 mtj_r0 0 {C_MTJ}
+MOFF_R0 lbl_r0 0 0 0 nmos W={WN} L={LCH} M={NOFF} AD=0 AS=0 PD=0 PS=0
+CLBL_R0 lbl_r0 0 {CLBLREF}
+MSEG_R0N gbl_r0 segsel  lbl_r0 0   nmos W={WSEG_N} L={LCH} AD=0 AS=0 PD=0 PS=0
+MSEG_R0P gbl_r0 segselb lbl_r0 vdd pmos W={WSEG_P} L={LCH} AD=0 AS=0 PD=0 PS=0
+MPRE_GR0 gbl_r0 pre vdd vdd pmos W={WPRE} L={LCH}
+CGBL_R0 gbl_r0 0 {CGBL}
+
+MCOL_D0N din0 colsel  gbl_d0 0   nmos W={WCOL_N} L={LCH} AD=0 AS=0 PD=0 PS=0
+MCOL_D0P din0 colselb gbl_d0 vdd pmos W={WCOL_P} L={LCH} AD=0 AS=0 PD=0 PS=0
+MCOL_R0N rin0 colsel  gbl_r0 0   nmos W={WCOL_N} L={LCH} AD=0 AS=0 PD=0 PS=0
+MCOL_R0P rin0 colselb gbl_r0 vdd pmos W={WCOL_P} L={LCH} AD=0 AS=0 PD=0 PS=0
+MPRE_DIN0 din0 pre vdd vdd pmos W={WPRE} L={LCH}
+MPRE_RIN0 rin0 pre vdd vdd pmos W={WPRE} L={LCH}
+CSAIN_D0 din0 0 {CSA_NODE}
+CSAIN_R0 rin0 0 {CSA_NODE}
+
+MSAP_D0 din0 rin0 psa0 vdd pmos W={WPSA} L={LCH} DELVTO={ 0.5*DVTH_SA_MV*1m}
+MSAP_R0 rin0 din0 psa0 vdd pmos W={WPSA} L={LCH} DELVTO={-0.5*DVTH_SA_MV*1m}
+MSAN_D0 din0 rin0 nsa0 0 nmos W={WNSA} L={LCH} DELVTO={ 0.5*DVTH_SA_MV*1m}
+MSAN_R0 rin0 din0 nsa0 0 nmos W={WNSA} L={LCH} DELVTO={-0.5*DVTH_SA_MV*1m}
+MSA_PSUP0 psa0 saenb vdd vdd pmos W={WSA_SUPPLY} L={LCH}
+MSA_TAIL0 nsa0 saen 0 0 nmos W={WTAIL} L={LCH}
+
+MOB1P_0 outb0 din0 vdd vdd pmos W={WP} L={LCH}
+MOB1N_0 outb0 din0 0 0 nmos W={WN} L={LCH}
+MOB2P_0 data_out0 outb0 vdd vdd pmos W={WP} L={LCH}
+MOB2N_0 data_out0 outb0 0 0 nmos W={WN} L={LCH}
+
+* READ-1: antiparallel MTJ (weak pull-down) + optional SET on read-1 path
+MPRE_LD1 lbl_d1 pre vdd vdd pmos W={WPRE} L={LCH}
+MACC_D1 lbl_d1 wl mtj_d1 0 nmos W={WN} L={LCH} DELVTO={DVTH_CELL_MV*1m}
+RMTJ_D1 mtj_d1 0 {R_AP}
+CMTJ_D1 mtj_d1 0 {C_MTJ}
+MOFF_D1 lbl_d1 0 0 0 nmos W={WN} L={LCH} M={NOFF} AD=0 AS=0 PD=0 PS=0
+CLBL_D1 lbl_d1 0 {CLBL1}
+
+MSEG_D1N gbl_d1 segsel  lbl_d1 0   nmos W={WSEG_N} L={LCH} AD=0 AS=0 PD=0 PS=0
+MSEG_D1P gbl_d1 segselb lbl_d1 vdd pmos W={WSEG_P} L={LCH} AD=0 AS=0 PD=0 PS=0
+MPRE_GD1 gbl_d1 pre vdd vdd pmos W={WPRE} L={LCH}
+CGBL_D1 gbl_d1 0 {CGBL}
+
+MPRE_LR1 lbl_r1 pre vdd vdd pmos W={WPRE} L={LCH}
+MACC_R1 lbl_r1 wl mtj_r1 0 nmos W={WN} L={LCH} DELVTO={DVTH_REF_MV*1m}
+RMTJ_R1 mtj_r1 0 {R_REF}
+CMTJ_R1 mtj_r1 0 {C_MTJ}
+MOFF_R1 lbl_r1 0 0 0 nmos W={WN} L={LCH} M={NOFF} AD=0 AS=0 PD=0 PS=0
+CLBL_R1 lbl_r1 0 {CLBLREF}
+MSEG_R1N gbl_r1 segsel  lbl_r1 0   nmos W={WSEG_N} L={LCH} AD=0 AS=0 PD=0 PS=0
+MSEG_R1P gbl_r1 segselb lbl_r1 vdd pmos W={WSEG_P} L={LCH} AD=0 AS=0 PD=0 PS=0
+MPRE_GR1 gbl_r1 pre vdd vdd pmos W={WPRE} L={LCH}
+CGBL_R1 gbl_r1 0 {CGBL}
+
+MCOL_D1N din1 colsel  gbl_d1 0   nmos W={WCOL_N} L={LCH} AD=0 AS=0 PD=0 PS=0
+MCOL_D1P din1 colselb gbl_d1 vdd pmos W={WCOL_P} L={LCH} AD=0 AS=0 PD=0 PS=0
+MCOL_R1N rin1 colsel  gbl_r1 0   nmos W={WCOL_N} L={LCH} AD=0 AS=0 PD=0 PS=0
+MCOL_R1P rin1 colselb gbl_r1 vdd pmos W={WCOL_P} L={LCH} AD=0 AS=0 PD=0 PS=0
+MPRE_DIN1 din1 pre vdd vdd pmos W={WPRE} L={LCH}
+MPRE_RIN1 rin1 pre vdd vdd pmos W={WPRE} L={LCH}
+CSAIN_D1 din1 0 {CSA_NODE}
+CSAIN_R1 rin1 0 {CSA_NODE}
+
+BSET_GBL1 gbl_d1 0 I={I0GBL*(exp(-max(time-TINJ_GBL,0)/TAUF_SET)-exp(-max(time-TINJ_GBL,0)/TAUR_SET))*(time>=TINJ_GBL)}
+BSET_SA1  din1   0 I={I0SA *(exp(-max(time-TINJ_SA,0)/TAUF_SET)-exp(-max(time-TINJ_SA,0)/TAUR_SET))*(time>=TINJ_SA)}
+
+MSAP_D1 din1 rin1 psa1 vdd pmos W={WPSA} L={LCH} DELVTO={ 0.5*DVTH_SA_MV*1m}
+MSAP_R1 rin1 din1 psa1 vdd pmos W={WPSA} L={LCH} DELVTO={-0.5*DVTH_SA_MV*1m}
+MSAN_D1 din1 rin1 nsa1 0 nmos W={WNSA} L={LCH} DELVTO={ 0.5*DVTH_SA_MV*1m}
+MSAN_R1 rin1 din1 nsa1 0 nmos W={WNSA} L={LCH} DELVTO={-0.5*DVTH_SA_MV*1m}
+MSA_PSUP1 psa1 saenb vdd vdd pmos W={WSA_SUPPLY} L={LCH}
+MSA_TAIL1 nsa1 saen 0 0 nmos W={WTAIL} L={LCH}
+
+MOB1P_1 outb1 din1 vdd vdd pmos W={WP} L={LCH}
+MOB1N_1 outb1 din1 0 0 nmos W={WN} L={LCH}
+MOB2P_1 data_out1 outb1 vdd vdd pmos W={WP} L={LCH}
+MOB2N_1 data_out1 outb1 0 0 nmos W={WN} L={LCH}
+
+.tran 1p 2.6n
+
+.measure tran D0_GBL_DEV FIND v(gbl_d0) AT={TDEVELOP}
+.measure tran D0_REF_DEV FIND v(gbl_r0) AT={TDEVELOP}
+.measure tran D0_DIFF_DEV PARAM='D0_REF_DEV-D0_GBL_DEV'
+.measure tran D1_GBL_DEV FIND v(gbl_d1) AT={TDEVELOP}
+.measure tran D1_REF_DEV FIND v(gbl_r1) AT={TDEVELOP}
+.measure tran D1_DIFF_DEV PARAM='D1_GBL_DEV-D1_REF_DEV'
+.measure tran OUT0_SENSE FIND v(data_out0) AT={TSENSE}
+.measure tran OUT1_SENSE FIND v(data_out1) AT={TSENSE}
+.measure tran READ0_OK PARAM='OUT0_SENSE < 0.5*VDDVAL'
+.measure tran READ1_OK PARAM='OUT1_SENSE > 0.5*VDDVAL'
+
+.control
+run
+quit
+.endc
+
+.end

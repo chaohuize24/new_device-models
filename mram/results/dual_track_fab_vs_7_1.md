@@ -1,15 +1,15 @@
-# SOT-MRAM 流片双轨对照（阶段 B）
+# SOT-MRAM 流片双轨对照
 
-更新日期：2026-08-28
+更新日期：2026-08-29
 
 ## 目的
 
 同时保留两套工作点，避免把 **电路 compact 仿真电流（§7.1，80–100 μA）** 与 **300 mm 流片实测 Ic（680/880 μA@2 ns）** 混成一个“真值”。
 
-| 轨道 | ID | 回答的问题 | HI/质子 Qcrit |
+| 轨道 | ID | 回答的问题 | HI/质子读窗 |
 |---|---|---|---|
-| Circuit compact | `general_sot_7_1` | 电路/variation/读 BER 下界 | **是（默认交付）** |
-| Fab anchor | `fab_led_2024` | 器件物理量级、写窗口电学脆弱性对照 | **否**（未重跑 characterize） |
+| Circuit compact | `general_sot_7_1` | 电路/variation/默认交付 | **已算（默认）** |
+| Fab anchor | `fab_led_2024` | 流片 R/TMR 电学敏感性 + 写筛选 | **已算（对照）** |
 
 文献：Yang et al., IEEE EDL 2024, [doi:10.1109/LED.2024.3454609](https://doi.org/10.1109/LED.2024.3454609)（arXiv:2404.09125）。
 
@@ -19,62 +19,53 @@
 |---|---:|---:|
 | TMR | 100% | 119% |
 | R_P / R_AP | 10 / 20 kΩ | 10.89 / 23.85 kΩ |
-| R_SOT | 776 Ω（共用通道电阻） | 776 Ω（实测均值） |
-| I_C | 80 μA | 680 μA (P→AP) / 880 μA (AP→P) @ 2 ns |
-| I_write（筛选） | 100 μA | 1020 μA (=1.5×680) |
+| R_SOT | 776 Ω | 776 Ω（实测均值） |
+| I_C | 80 μA | 680 / 880 μA @ 2 ns |
+| I_write（写筛选） | 100 μA | 1020 μA |
 | 写脉冲 | 1 ns | 2 ns |
-| 写驱动 NMOS/PMOS | 400 / 800 nm | 1200 / 2400 nm |
 
-流片原文使用 **B_ext = ±20 mT** 辅助场；本 ngspice 代理**未建模**外场。
+流片原文 B_ext=±20 mT **未建模**。
+
+## 读窗口 HI / 质子（方案二，2026-08-29）
+
+同一套 RPP + SPENVIS；仅 MTJ 电阻/TMR 换成流片值。64 samples/level。
+
+| 量 | §7.1 | fab_led_2024 | fab / §7.1 |
+|---|---:|---:|---:|
+| HI nominal（0.72 ns） | **1.417×10⁻²⁴** | **1.296×10⁻²⁴** | **0.915** |
+| HI low | 1.389×10⁻²⁶ | 1.285×10⁻²⁶ | ~0.93 |
+| HI high | 1.578×10⁻¹⁹ | 1.577×10⁻¹⁹ | ~1.00 |
+| 质子下界 nominal | 3.044×10⁻¹⁹ | 3.026×10⁻¹⁹ | **0.994** |
+
+**解读：** 换成流片电阻后，中心读错误下界几乎不变（HI 约低 8.5%，质子几乎相同）。说明当前读窗结果对 **10k 级 R / ~100% TMR** 不敏感；**默认交付仍用 §7.1**。写电流量级差异（80 μA vs 680 μA）不在本读链里消除。
+
+机器可读对照：`results/fab_led_2024_read_delivery_comparison.json`。
+
+复现：
+
+```bash
+python mram/scripts/run_fab_led_2024_read_delivery.py
+```
 
 ## 读路径功能筛选
 
-`python mram/scripts/run_read_path_sensitivity.py`
+| variant | functional_pass |
+|---|---|
+| general_sot_7_1 / fab_led_2024 / fab_led_2024_array_tuned / §7.2 / array_tuned_7_1 | ✓ |
+| legacy_scaled_proxy | ✗ |
 
-| variant | functional_pass | min_diff_dev (V) |
-|---|---:|---:|
-| general_sot_7_1 | ✓ | ~0.038 |
-| fab_led_2024 | ✓ | （见 TSV） |
-| fab_led_2024_array_tuned | ✓ | （见 TSV） |
-| optimized_nature_7_2 | ✓ | |
-| array_tuned_7_1 | ✓ | |
-| legacy_scaled_proxy | ✗ | |
+## 写窗口 Qcrit 快筛
 
-详表：`results/read_path_sensitivity.tsv`、`read_path_sensitivity_summary.json`。
-
-## 写窗口 Qcrit 快筛（`--quick`）
-
-```bash
-# §7.1
-python mram/scripts/run_sot_write_strike_screen.py --quick \
-  --output-dir results/write_strike_screen
-
-# fab
-python mram/scripts/run_sot_write_strike_screen.py --quick \
-  --config configs/sot_write_strike_screen_fab_led_2024.json \
-  --output-dir results/write_strike_screen_fab_led_2024
-```
-
-| 轨道 | min write Qcrit | min hold Qcrit | write/hold | write bound |
+| 轨道 | min write Qcrit | min hold | write/hold | bound |
 |---|---:|---:|---:|---|
 | general_sot_7_1 | 0.00625 fC | 0.00625 fC | **1.0** | bracketed |
-| fab_led_2024 | **512 fC** | 0.00625 fC | **>81920** | right-censored（至 512 fC 未翻） |
+| fab_led_2024 | **≥512 fC** | 0.00625 fC | **>81920** | right-censored |
 
-解读（screening_only）：
-
-- Hold 侧两轨相近（同为高阻 MTJ hold 代理）。
-- Fab 轨在更强写电流 + 加宽驱动下，写窗口对双指数注入在 512 fC 内**未观察到翻转** → 写相对 hold 更“硬”，比值是**稳健性下界**，不是 WER。
-- §7.1 轨写/hold ≈ 1，与低裕量 compact 电流一致，适合 variation/电路灵敏度叙事。
-
-## 复现入口
+## 文件入口
 
 | 文件 | 用途 |
 |---|---|
-| `models/MTJ/sot_mtj_parameters.json` → `workpoints.fab_led_2024` | 参数源 |
-| `models/MTJ/SOURCE.md` | 双轨说明 |
-| `configs/read_path_variants.json` | 读变体 |
-| `configs/sot_write_strike_screen.json` | §7.1 写筛选 |
-| `configs/sot_write_strike_screen_fab_led_2024.json` | fab 写筛选 |
-| `interfaces/mram_device_delivery.json` → `post_write.results` | 双轨机器可读结果 |
-
-**不要**用 fab 轨数字替换 HI/质子 delivery，除非重新 `characterize` 流片电阻网表。
+| `netlists/sot_mram_hierarchical_senseamp_fab_led_2024.cir` | 流片电阻读网表 |
+| `scripts/run_fab_led_2024_read_delivery.py` | 流片轨 HI/质子一键链 |
+| `results/*_fab_led_2024.*` | 流片轨结果（不覆盖 §7.1 表） |
+| `interfaces/mram_device_delivery.json` | 默认 §7.1 + `transient_read.results.fab_led_2024` 对照 |
